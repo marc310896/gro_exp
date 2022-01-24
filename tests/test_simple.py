@@ -22,9 +22,11 @@ class UserModelCase(unittest.TestCase):
         if os.path.isdir("tests"):
             os.chdir("tests")
 
-        folder = 'output'
-        pa.utils.mkdirp(folder)
-        pa.utils.mkdirp(folder+"/temp")
+        folder = "output"
+        if not os.path.exists('output'):
+            os.makedirs('output')
+        if not os.path.exists("output/temp"):
+            os.makedirs("output/temp")
         open(folder+"/temp.txt", 'a').close()
 
         for filename in os.listdir(folder):
@@ -36,8 +38,8 @@ class UserModelCase(unittest.TestCase):
 
     def test_gromacs_analyse(self):
 
-        utils.utils.density("density.xvg")
-        utils.utils.msd("msd.xvg", is_plot=True)
+        utils.utils.density("data/density.xvg")
+        utils.utils.msd("data/msd.xvg", is_plot=True)
         plt.show()
 
 if __name__ == '__main__':
