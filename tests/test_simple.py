@@ -34,7 +34,7 @@ class UserModelCase(unittest.TestCase):
             elif os.path.isdir(file_path):
                 shutil.rmtree(file_path)
 
-    def gro(self):
+    def test_gromacs_analyse(self):
 
         utils.utils.density("density.xvg")
         utils.utils.msd("msd.xvg", is_plot=True)
