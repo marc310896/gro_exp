@@ -1,0 +1,10 @@
+poreana.egg-info
+build
+dist
+__pycache__
+*.pyc
+.DS_Store
+._.DS_Store
+.ipynb_checkpoints
+.coverage
+.pytest_cache
