@@ -1,0 +1,74 @@
+# This file was created Mon Jan 24 09:01:28 2022
+# Created by:
+#                     :-) GROMACS - gmx density, 2019.6 (-:
+# 
+# Executable:   /home/st/st_us-041110/st_ac133685/programs/gromacs/bin/gmx_mpi
+# Data prefix:  /home/st/st_us-041110/st_ac133685/programs/gromacs
+# Working dir:  /pfs/work7/workspace/scratch/st_ac133685-sim-0/bulk_nvt/298_benzene_1k_2019_6/run
+# Command line:
+#   gmx_mpi density -f run -s run -o msd
+# gmx density is part of G R O M A C S:
+#
+# GROtesk MACabre and Sinister
+#
+@    title "Partial density"
+@    xaxis  label "Coordinate (nm)"
+@    yaxis  label "Density (kg m\S-3\N)"
+@TYPE xy
+@ view 0.15, 0.15, 0.75, 0.85
+@ legend on
+@ legend box on
+@ legend loctype view
+@ legend 0.78, 0.8
+@ legend length 2
+@ s0 legend "System"
+   0.0530699          867.876
+     0.15921          868.161
+    0.265349          868.481
+    0.371489          867.526
+    0.477629          867.046
+    0.583768          867.341
+    0.689908           868.83
+    0.796048          868.583
+    0.902187          866.732
+     1.00833          867.191
+     1.11447          868.792
+     1.22061           866.68
+     1.32675          867.567
+     1.43289          868.436
+     1.53903          868.377
+     1.64517          867.581
+     1.75131          867.445
+     1.85744           867.53
+     1.96358          868.119
+     2.06972          868.096
+     2.17586          867.745
+       2.282          866.615
+     2.38814          868.372
+     2.49428          867.822
+     2.60042          867.261
+     2.70656            867.8
+      2.8127          868.036
+     2.91884          868.246
+     3.02498          866.928
+     3.13112          867.587
+     3.23726          867.485
+      3.3434          868.141
+     3.44954          867.559
+     3.55568          867.584
+     3.66182          868.027
+     3.76796          868.099
+      3.8741          867.698
+     3.98024          867.942
+     4.08638          867.648
+     4.19252          867.617
+     4.29866          867.093
+      4.4048          868.365
+     4.51094           868.14
+     4.61708          867.345
+     4.72322          866.938
+     4.82936          867.925
+      4.9355          868.148
+     5.04164          867.986
+     5.14778          868.113
+     5.25392          867.477
