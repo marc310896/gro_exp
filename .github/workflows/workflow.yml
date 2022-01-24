@@ -21,12 +21,5 @@ jobs:
     - name: Build package
       run: |
         pytest -s --cov=utils tests/
-    - uses: actions/checkout@master
-    - uses: codecov/codecov-action@v2
-      with:
-        token: ${{ 50b104cc-7450-408c-99d3-88e43daa1301 }} # not required for public repos
-        flags: unittests # optional
-        name: codecov-umbrella # optional
-        fail_ci_if_error: true # optional (default = false)
-        verbose: true # optional (default = false)
+
       
