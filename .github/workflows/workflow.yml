@@ -20,6 +20,6 @@ jobs:
         python -m pip install .
     - name: Build package
       run: |
-        pytest -s --cov=poreana tests/
+        pytest -s --cov=utils tests/
     - name: Upload Coverage to Codecov
       uses: codecov/codecov-action@v2
