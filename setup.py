@@ -1,16 +1,14 @@
-import setuptools
+from distutils.core import setup
 
-
-setuptools.setup(
+setup(
     name="utils",
     version="0.0.1",
-    packages=setuptools.find_packages(),
-    classifiers=[
-        "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
-        "Operating System :: OS Independent",
-    ],
-    python_requires='>=3.5',
-    install_requires=['numpy','pandas','seaborn'],
-    include_package_data=True,
+    description='description',
+    author='Marc Hoegler',
+    author_email='marc.hoegler@icvt.uni-stuttgart.de',
+    classifiers=[],
+    #python_requires='>=3.5',
+    url='https://github.com/marc310896/utils',
+    #install_requires=['numpy', 'pandas', 'seaborn'],
+    #include_package_data=True,
 )
