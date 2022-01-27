@@ -10,7 +10,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-import utils
+import gro_exp
 
 
 class UserModelCase(unittest.TestCase):
@@ -38,9 +38,10 @@ class UserModelCase(unittest.TestCase):
 
     def test_gromacs_analyse(self):
 
-        utils.utils.density("data/density.xvg")
-        utils.utils.msd("data/msd.xvg", is_plot=True)
+        gro_exp.utils.density("data/density.xvg", is_print=True)
+        gro_exp.utils.msd("data/msd.xvg", is_print=True)
         plt.show()
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
