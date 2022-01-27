@@ -20,6 +20,6 @@ jobs:
         python -m pip install .
     - name: Test
       run: |
-        pytest -s --cov=gro-exp --cov-report=xml tests/
+        pytest -f --cov=gro-exp --cov-report=xml tests/
     - name: Code coverage
       uses: codecov/codecov-action@v2
