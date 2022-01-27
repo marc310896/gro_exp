@@ -42,6 +42,10 @@ class UserModelCase(unittest.TestCase):
         gro_exp.utils.msd("data/msd.xvg", is_print=True)
         plt.show()
 
+    def test_read_exp(self):
+        data = gro_exp.utils.read_exp(
+            "data/benzene_exp_density.xls", "DEN", temp=298.15, press=100000, p_nan=1000)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
