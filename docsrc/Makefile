@@ -18,11 +18,3 @@ help:
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-
-
-github:
-	@rm -r ../docs
-	@mkdir ../docs
-	@touch ../docs/.nojekyll
-	@make html
-	@cp -a _build/html/. ../docs
