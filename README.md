@@ -1,7 +1,9 @@
-![Build Status](https://github.com/marc310896/utils/actions/workflows/workflow.yml/badge.svg)
+[![Build Status](https://github.com/marc310896/utils/actions/workflows/workflow.yml/badge.svg)](https://github.com/marc310896/gro_exp/actions/workflows/workflow.yml)
 [![DOI](https://zenodo.org/badge/451454624.svg)](https://zenodo.org/badge/latestdoi/451454624)
 [![codecov](https://codecov.io/gh/marc310896/gro_exp/branch/master/graph/badge.svg?token=TJ6JCUHXRZ)](https://codecov.io/gh/marc310896/gro_exp)
 [![PyPI version](https://badge.fury.io/py/gro-exp.svg)](https://badge.fury.io/py/gro-exp)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/marc310896/gro_exp/blob/master/LICENSE)
+
 
 ## gro-exp
 
