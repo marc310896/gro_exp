@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 
 def msd(filename, is_print=False, is_plot=False):
-    """
+    """'sphinx.ext.autosummary',
     The function enables a display of the MSD history calculated by Gromacs by
     reading out a Gromacs xvg output file.
 
@@ -67,7 +67,7 @@ def msd(filename, is_print=False, is_plot=False):
 
 
 def density(filename, is_print=False, is_plot=False):
-    """
+    """'sphinx.ext.autosummary',
     The function enables a calculation of the mean density in as simulation box
     and can plot the density over the box. As input file a gromacs xvg has to use.
 
@@ -117,8 +117,9 @@ def density(filename, is_print=False, is_plot=False):
 
 
 def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, disp_tab=False, p_nan=False, is_plot=False, is_print=False, area=[]):
-    """
-
+    """'sphinx.ext.autosummary',
+    This function can read a DBB Excel file and returns the desired mean
+    property at the specified temperature.
 
     Parameters
     ----------

@@ -5,24 +5,3 @@
 
 Welcome to gro-exp's documentation!
 ===================================
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-
-.. currentmodule:: gro-exp
-.. autosummary::
-     :toctree: generated/
-
-     gro_exp.utils.msd
-     gro_exp.utils.density

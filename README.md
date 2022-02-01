@@ -7,7 +7,7 @@
 
 ## gro-exp
 
-## Documentation 
+## Documentation
 
 Online Documentation https://marc310896.github.io/gro_exp/
 
@@ -29,4 +29,4 @@ To test gro-exp, run the test in the test directory.
 
 ## How to Cite gro-exp
 
-When citing gro-exp please use the current **Zenodo DOI** corresponding to the used PoreAna version. (Current DOI is listed in the badges.)
+When citing gro-exp please use the current **Zenodo DOI** corresponding to the used version. (Current DOI is listed in the badges.)
