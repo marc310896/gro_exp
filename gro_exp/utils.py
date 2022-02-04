@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 
 def msd(filename, is_print=False, is_plot=False):
-    """'sphinx.ext.autosummary',
+    """
     The function enables a display of the MSD history calculated by Gromacs by
     reading out a Gromacs xvg output file.
 
@@ -67,7 +67,7 @@ def msd(filename, is_print=False, is_plot=False):
 
 
 def density(filename, is_print=False, is_plot=False):
-    """'sphinx.ext.autosummary',
+    """
     The function enables a calculation of the mean density in as simulation box
     and can plot the density over the box. As input file a gromacs xvg has to use.
 
@@ -116,8 +116,8 @@ def density(filename, is_print=False, is_plot=False):
     return length, density, density_mean
 
 
-def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, disp_tab=False, p_nan=False, is_plot=False, is_print=False, area=[]):
-    """'sphinx.ext.autosummary',
+def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False, is_plot=False, is_print=False, area=[]):
+    """
     This function can read a DBB Excel file and returns the desired mean
     property at the specified temperature.
 
@@ -135,8 +135,6 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, disp_tab=Fal
         tolerance for the target temperature
     tol_p : float, optional
         tolerance for target pressure
-    disp_tab : bool, optional
-        display the founded values in a pandas table
     p_nan : bool, optional
         consider all data points which has no specified pressure
     is_plot : bool, optional
@@ -160,6 +158,8 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, disp_tab=Fal
         list of all data points
     ref_vec : list
         reference of the data points
+    table : obj
+        Pandas DataFrame with the selected data points
     """
 
     # Read excel data file
@@ -200,16 +200,17 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, disp_tab=Fal
     prop_vec = []
     ref_vec = []
 
+    # Read reference of the choosen data points
     for i in (data[prop]):
         prop_vec.append(float(data[prop][i]))
         ref = df_ref[df_ref['PCP Data Set#'] == (data['Ref. Number'][i])]
-        a = ref['T'].values[0]
-        ref_vec.append(a.split("] ")[1])
+        ref = ref['T'].values[0]
+        ref_vec.append(ref.split("] ")[1])
 
-    # Display the chossen values
-    if disp_tab:
-        display(a)
+    # Save table with data points
+    table = a
 
+    # Plot selected data points
     if is_plot:
         plt.figure(figsize=(13, 4))
         plt.title(filename)
@@ -236,4 +237,4 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, disp_tab=Fal
         print("Amount of data : " + str(len(prop_vec)))
 
     #Return results
-    return mean, std, unit, data_amount, prop_vec, ref_vec
+    return mean, std, unit, data_amount, prop_vec, ref_vec, table
