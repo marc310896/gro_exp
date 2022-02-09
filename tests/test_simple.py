@@ -47,6 +47,17 @@ class UserModelCase(unittest.TestCase):
         data = gro_exp.utils.read_exp(
             "data/benzene_exp_density.xls", "DEN", temp=298.15, press=100000, tol_temp = 0.15, tol_p = 1000, p_nan=True, is_print=True, is_plot=True, area=[800,1000])
 
+    def test_benchmark_function(self):
+        ns_h_1core = [0.762,1.344,2.045,2.755,3.448,4.013,4.199,4.518]
+        cpus_1core = [1,2,3,4,5,6,7,8]
+
+        gro_exp.utils.bench_plot(ns_h_1core, cpus_1core)
+        gro_exp.utils.bench_table(ns_h_1core, cpus_1core, 200, print_con=True)
+
+        ns_h = [ 31.297,51.343,40.657,44.627,46.823,46.984,47.606,43.642,44.444,43.502,42.243,41.988,39.320,27.012,38.910,34.992,34.540,23.975,34.915,34.435]
+        gro_exp.utils.bench_plot(ns_h, 75, nodes=True)
+        gro_exp.utils.bench_table(ns_h, 75, 200, nodes=True, print_con=True)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

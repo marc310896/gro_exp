@@ -1,12 +1,117 @@
 import glob                        # use linux wildcard syntax
 import numpy as np
 import sys
-import pandas
+import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-#Function to read msd from a .xvg file
 
+def bench_plot(ns_h, cpus, nodes=False):
+    """
+    Function to plot speedup and cpu efficieny over the CPUs.
+
+    Parameters
+    ----------
+    ns_h : list
+        list with ns/h
+    cpus : list or int
+        list with used cpus or number of cpus per node if ns_h list is over nodes
+    nodes : bool
+        if ns_h list is over nodes
+
+    Returns
+    -------
+    speedup : list
+        speedup over the cpus or nodes
+    efficieny : list
+        efficieny over cpus
+    """
+    efficieny = []
+    speedup = []
+    speedup_ideal = []
+    #if not cpus:
+    if nodes:
+        cpus = [cpus* (node+1) for node in range(len(ns_h)) ]
+        nodes = [node+1 for node in range(len(ns_h)) ]
+        for node,nh in zip(nodes,ns_h):
+            speed = 1/(ns_h[0]/(nh))
+            speedup.append(1/(ns_h[0]/(nh)))
+            efficieny.append(speed/(node))
+            speedup_ideal.append(1/(ns_h[0]/((node)*ns_h[0])))
+    else:
+        for cpu,nh in zip(cpus,ns_h):
+            speed = 1/(ns_h[0]/(nh))
+            speedup.append(1/(ns_h[0]/(nh)))
+            efficieny.append(speed/(cpu))
+            speedup_ideal.append(1/(ns_h[0]/((cpu)*ns_h[0])))
+
+    plt.figure(figsize=(15,8))
+    plt.subplot(2,2, 1)
+    plt.plot(cpus,speedup, linestyle="-", marker= '*')
+    plt.plot(cpus,speedup_ideal)
+    plt.legend(["Speedup","Speedup (ideal)"])
+    plt.xlabel("CPUs")
+    plt.ylabel("SpeedUp")
+
+    plt.subplot(2,2, 2)
+    plt.plot(cpus,efficieny)
+    plt.plot(cpus,[1 for i in range(len(cpus))])
+    plt.legend(["Efficieny","Efficieny (ideal)"])
+    plt.xlabel("CPUs")
+    plt.ylabel("Efficiency")
+
+    return speedup, efficieny
+
+def bench_table(ns_h, cpus, ns, nodes=False, print_con=False):
+    """
+    Function to plot speedup and cpu efficieny over the CPUs.
+
+    Parameters
+    ----------
+    ns_h : list
+        list with ns/h
+    cpus : list or int
+        list with used cpus or number of cpus per node if ns_h list is over nodes
+    ns : float
+        time which has to simulated to caculate the simulation time
+    nodes : bool
+        if ns_h list is over nodes
+    print_con : bool
+        if True to print in console
+
+    Returns
+    -------
+    data : dictonary
+        dictonary of the table
+    """
+    efficieny = []
+    speedup = []
+    speedup_ideal = []
+    #if not cpus:
+    if nodes:
+        cpus = [cpus * (node+1) for node in range(len(ns_h))  ]
+        nodes = [node+1 for node in range(len(ns_h)) ]
+        for node,nh in zip(nodes,ns_h):
+            speed = 1/(ns_h[0]/(nh))
+            speedup.append(1/(ns_h[0]/(nh)))
+            efficieny.append(speed/(node))
+            speedup_ideal.append(1/(ns_h[0]/((node)*ns_h[0])))
+    else:
+        for cpu,nh in zip(cpus,ns_h):
+            speed = 1/(ns_h[0]/(nh))
+            speedup.append(1/(ns_h[0]/(nh)))
+            efficieny.append(speed/(cpu))
+            speedup_ideal.append(1/(ns_h[0]/((cpu)*ns_h[0])))
+
+    data = {"CPUs": cpus, "Speedup": speedup, "Efficieny": efficieny, "ns/h": ns_h, "Simulation time (days)": [ns/i/24 for i in ns_h]}
+    df = pd.DataFrame(data)
+
+    if print_con:
+        print(df)
+    else:
+        display(df)
+
+    return data
 
 def msd(filename, is_print=False, is_plot=False):
     """
@@ -163,7 +268,7 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False,
     """
 
     # Read excel data file
-    df_all = pandas.read_excel(filename)
+    df_all = pd.read_excel(filename)
 
     # Read unit and drop first row
     unit = df_all[prop][0]
@@ -177,7 +282,7 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False,
 
     # Valbool, optionalues table
     df = df_all.truncate(after=int(rows_with_nan[0]))
-    pandas.to_numeric(df['T'])
+    pd.to_numeric(df['T'])
 
     # Search for the desired temperature
     a = df[df['T'] <= (temp + tol_temp)]
@@ -189,7 +294,7 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False,
     # Search for the desired pressure
     if press:
         if "P" in a:
-            pandas.to_numeric(df['P'])
+            pd.to_numeric(df['P'])
             if p_nan:
                 a['P'] = a['P'].fillna(press)
             a = a[a['P'] <= (press + tol_p)]

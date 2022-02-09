@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name="gro_exp",
-    version="0.0.2",
+    version="0.0.3",
     description='description',
     author='Marc Hoegler',
     author_email='marc.hoegler@icvt.uni-stuttgart.de',
