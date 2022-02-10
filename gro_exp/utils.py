@@ -6,18 +6,18 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-def bench_plot(ns_h, cpus, nodes=False):
+def bench_plot(ns_day, cpus, nodes=False):
     """
     Function to plot speedup and cpu efficieny over the CPUs.
 
     Parameters
     ----------
-    ns_h : list
-        list with ns/h
+    ns_day : list
+        list with ns/day
     cpus : list or int
-        list with used cpus or number of cpus per node if ns_h list is over nodes
+        list with used cpus or number of cpus per node if ns_day list is over nodes
     nodes : bool
-        if ns_h list is over nodes
+        if ns_day list is over nodes
 
     Returns
     -------
@@ -31,19 +31,19 @@ def bench_plot(ns_h, cpus, nodes=False):
     speedup_ideal = []
     #if not cpus:
     if nodes:
-        cpus = [cpus* (node+1) for node in range(len(ns_h)) ]
-        nodes = [node+1 for node in range(len(ns_h)) ]
-        for node,nh in zip(nodes,ns_h):
-            speed = 1/(ns_h[0]/(nh))
-            speedup.append(1/(ns_h[0]/(nh)))
+        cpus = [cpus* (node+1) for node in range(len(ns_day)) ]
+        nodes = [node+1 for node in range(len(ns_day)) ]
+        for node,nd in zip(nodes,ns_day):
+            speed = 1/(ns_day[0]/(nd))
+            speedup.append(1/(ns_day[0]/(nd)))
             efficieny.append(speed/(node))
-            speedup_ideal.append(1/(ns_h[0]/((node)*ns_h[0])))
+            speedup_ideal.append(1/(ns_day[0]/((node)*ns_day[0])))
     else:
-        for cpu,nh in zip(cpus,ns_h):
-            speed = 1/(ns_h[0]/(nh))
-            speedup.append(1/(ns_h[0]/(nh)))
+        for cpu,nd in zip(cpus,ns_day):
+            speed = 1/(ns_day[0]/(nd))
+            speedup.append(1/(ns_day[0]/(nd)))
             efficieny.append(speed/(cpu))
-            speedup_ideal.append(1/(ns_h[0]/((cpu)*ns_h[0])))
+            speedup_ideal.append(1/(ns_day[0]/((cpu)*ns_day[0])))
 
     plt.figure(figsize=(15,8))
     plt.subplot(2,2, 1)
@@ -62,20 +62,20 @@ def bench_plot(ns_h, cpus, nodes=False):
 
     return speedup, efficieny
 
-def bench_table(ns_h, cpus, ns, nodes=False, print_con=False):
+def bench_table(ns_day, cpus, ns, nodes=False, print_con=False):
     """
     Function to plot speedup and cpu efficieny over the CPUs.
 
     Parameters
     ----------
-    ns_h : list
-        list with ns/h
+    ns_day : list
+        list with ns/day
     cpus : list or int
-        list with used cpus or number of cpus per node if ns_h list is over nodes
+        list with used cpus or number of cpus per node if ns_day list is over nodes
     ns : float
         time which has to simulated to caculate the simulation time
     nodes : bool
-        if ns_h list is over nodes
+        if ns_day list is over nodes
     print_con : bool
         if True to print in console
 
@@ -87,23 +87,23 @@ def bench_table(ns_h, cpus, ns, nodes=False, print_con=False):
     efficieny = []
     speedup = []
     speedup_ideal = []
-    #if not cpus:
-    if nodes:
-        cpus = [cpus * (node+1) for node in range(len(ns_h))  ]
-        nodes = [node+1 for node in range(len(ns_h)) ]
-        for node,nh in zip(nodes,ns_h):
-            speed = 1/(ns_h[0]/(nh))
-            speedup.append(1/(ns_h[0]/(nh)))
-            efficieny.append(speed/(node))
-            speedup_ideal.append(1/(ns_h[0]/((node)*ns_h[0])))
-    else:
-        for cpu,nh in zip(cpus,ns_h):
-            speed = 1/(ns_h[0]/(nh))
-            speedup.append(1/(ns_h[0]/(nh)))
-            efficieny.append(speed/(cpu))
-            speedup_ideal.append(1/(ns_h[0]/((cpu)*ns_h[0])))
 
-    data = {"CPUs": cpus, "Speedup": speedup, "Efficieny": efficieny, "ns/h": ns_h, "Simulation time (days)": [ns/i/24 for i in ns_h]}
+    if nodes:
+        cpus = [cpus * (node+1) for node in range(len(ns_day))  ]
+        nodes = [node+1 for node in range(len(ns_day)) ]
+        for node,nd in zip(nodes,ns_day):
+            speed = 1/(ns_day[0]/(nd))
+            speedup.append(1/(ns_day[0]/(nd)))
+            efficieny.append(speed/(node))
+            speedup_ideal.append(1/(ns_day[0]/((node)*ns_day[0])))
+    else:
+        for cpu,nd in zip(cpus,ns_day):
+            speed = 1/(ns_day[0]/(nd))
+            speedup.append(1/(ns_day[0]/(nd)))
+            efficieny.append(speed/(cpu))
+            speedup_ideal.append(1/(ns_day[0]/((cpu)*ns_day[0])))
+
+    data = {"CPUs": cpus, "Speedup": speedup, "Efficieny": efficieny, "ns/day": ns_day, "Simulation time (days)": [ns/i for i in ns_day]}
     df = pd.DataFrame(data)
 
     if print_con:
