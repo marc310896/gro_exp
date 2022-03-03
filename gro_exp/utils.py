@@ -31,36 +31,37 @@ def bench_plot(ns_day, cpus, nodes=False):
     speedup_ideal = []
     #if not cpus:
     if nodes:
-        cpus = [cpus* (node+1) for node in range(len(ns_day)) ]
-        nodes = [node+1 for node in range(len(ns_day)) ]
-        for node,nd in zip(nodes,ns_day):
+        cpus = [cpus * (node+1) for node in range(len(ns_day))]
+        nodes = [node+1 for node in range(len(ns_day))]
+        for node, nd in zip(nodes, ns_day):
             speed = 1/(ns_day[0]/(nd))
             speedup.append(1/(ns_day[0]/(nd)))
             efficieny.append(speed/(node))
             speedup_ideal.append(1/(ns_day[0]/((node)*ns_day[0])))
     else:
-        for cpu,nd in zip(cpus,ns_day):
+        for cpu, nd in zip(cpus, ns_day):
             speed = 1/(ns_day[0]/(nd))
             speedup.append(1/(ns_day[0]/(nd)))
             efficieny.append(speed/(cpu))
             speedup_ideal.append(1/(ns_day[0]/((cpu)*ns_day[0])))
 
-    plt.figure(figsize=(15,8))
-    plt.subplot(2,2, 1)
-    plt.plot(cpus,speedup, linestyle="-", marker= '*')
-    plt.plot(cpus,speedup_ideal)
-    plt.legend(["Speedup","Speedup (ideal)"])
+    plt.figure(figsize=(15, 8))
+    plt.subplot(2, 2, 1)
+    plt.plot(cpus, speedup, linestyle="-", marker='*')
+    plt.plot(cpus, speedup_ideal)
+    plt.legend(["Speedup", "Speedup (ideal)"])
     plt.xlabel("CPUs")
     plt.ylabel("SpeedUp")
 
-    plt.subplot(2,2, 2)
-    plt.plot(cpus,efficieny)
-    plt.plot(cpus,[1 for i in range(len(cpus))])
-    plt.legend(["Efficieny","Efficieny (ideal)"])
+    plt.subplot(2, 2, 2)
+    plt.plot(cpus, efficieny)
+    plt.plot(cpus, [1 for i in range(len(cpus))])
+    plt.legend(["Efficieny", "Efficieny (ideal)"])
     plt.xlabel("CPUs")
     plt.ylabel("Efficiency")
 
     return speedup, efficieny
+
 
 def bench_table(ns_day, cpus, ns, nodes=False, print_con=False):
     """
@@ -89,21 +90,22 @@ def bench_table(ns_day, cpus, ns, nodes=False, print_con=False):
     speedup_ideal = []
 
     if nodes:
-        cpus = [cpus * (node+1) for node in range(len(ns_day))  ]
-        nodes = [node+1 for node in range(len(ns_day)) ]
-        for node,nd in zip(nodes,ns_day):
+        cpus = [cpus * (node+1) for node in range(len(ns_day))]
+        nodes = [node+1 for node in range(len(ns_day))]
+        for node, nd in zip(nodes, ns_day):
             speed = 1/(ns_day[0]/(nd))
             speedup.append(1/(ns_day[0]/(nd)))
             efficieny.append(speed/(node))
             speedup_ideal.append(1/(ns_day[0]/((node)*ns_day[0])))
     else:
-        for cpu,nd in zip(cpus,ns_day):
+        for cpu, nd in zip(cpus, ns_day):
             speed = 1/(ns_day[0]/(nd))
             speedup.append(1/(ns_day[0]/(nd)))
             efficieny.append(speed/(cpu))
             speedup_ideal.append(1/(ns_day[0]/((cpu)*ns_day[0])))
 
-    data = {"CPUs": cpus, "Speedup": speedup, "Efficieny": efficieny, "ns/day": ns_day, "Simulation time (days)": [ns/i for i in ns_day]}
+    data = {"CPUs": cpus, "Speedup": speedup, "Efficieny": efficieny,
+            "ns/day": ns_day, "Simulation time (days)": [ns/i for i in ns_day]}
     df = pd.DataFrame(data)
 
     if print_con:
@@ -112,6 +114,7 @@ def bench_table(ns_day, cpus, ns, nodes=False, print_con=False):
         display(df)
 
     return data
+
 
 def msd(filename, is_print=False, is_plot=False):
     """
@@ -168,7 +171,7 @@ def msd(filename, is_print=False, is_plot=False):
         plt.ylabel("MSD")
 
     # Return data
-    return time, msd, str(words[4]), str(words[5])
+    return time, msd, str(words[4]), str(words[6][:-1])
 
 
 def density(filename, is_print=False, is_plot=False):
