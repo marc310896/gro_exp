@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>gro_exp.utils.density &#8212; gro-exp 0.0.2 documentation</title>
+    <title>gro_exp.ddb.plot_data &#8212; gro-exp 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/bootstrap-sphinx.css" />
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
@@ -66,7 +66,7 @@
   <ul class="dropdown-menu localtoc"
       role="menu"
       aria-labelledby="dLabelLocalToc"><ul>
-<li><a class="reference internal" href="#">gro_exp.utils.density</a></li>
+<li><a class="reference internal" href="#">gro_exp.ddb.plot_data</a></li>
 </ul>
 </ul>
 </li>
@@ -96,31 +96,22 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <section id="gro-exp-utils-density">
-<h1>gro_exp.utils.density<a class="headerlink" href="#gro-exp-utils-density" title="Permalink to this headline">¶</a></h1>
+  <section id="gro-exp-ddb-plot-data">
+<h1>gro_exp.ddb.plot_data<a class="headerlink" href="#gro-exp-ddb-plot-data" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
-<dt class="sig sig-object py" id="gro_exp.utils.density">
-<span class="sig-prename descclassname"><span class="pre">gro_exp.utils.</span></span><span class="sig-name descname"><span class="pre">density</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_print</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_plot</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gro_exp.utils.density" title="Permalink to this definition">¶</a></dt>
-<dd><p>The function enables a calculation of the mean density in as simulation box
-and can plot the density over the box. As input file a gromacs xvg has to use.</p>
+<dt class="sig sig-object py" id="gro_exp.ddb.plot_data">
+<span class="sig-prename descclassname"><span class="pre">gro_exp.ddb.</span></span><span class="sig-name descname"><span class="pre">plot_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prop_dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">temp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mean</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">std</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gro_exp.ddb.plot_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function can be used to find outliers in the data. It is possible to plot the data points for a specified temperature.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>filename</strong><span class="classifier">string</span></dt><dd><p>Link to gromacs analyse output file</p>
+<dt><strong>prop_dict</strong><span class="classifier">dictonary</span></dt><dd><p>dictonary with all data points for the specified temperatures</p>
 </dd>
-<dt><strong>is_print</strong><span class="classifier">bool, optional</span></dt><dd><p>True to print the mean density</p>
+<dt><strong>temp</strong><span class="classifier">string</span></dt><dd><p>consiedered temperature</p>
 </dd>
-<dt><strong>is_plot</strong><span class="classifier">bool, optional</span></dt><dd><p>True to plot the density over the box length</p>
+<dt><strong>mean: bool, optional</strong></dt><dd><p>plot the mean values of the property as a line plot</p>
 </dd>
-</dl>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><dl class="simple">
-<dt><strong>length</strong><span class="classifier">list</span></dt><dd><p>list over box length</p>
-</dd>
-<dt><strong>density</strong><span class="classifier">list</span></dt><dd><p>list with the density</p>
-</dd>
-<dt><strong>dens_mean</strong><span class="classifier">float</span></dt><dd><p>mean density in the simulation Box</p>
+<dt><strong>std: bool, optional</strong></dt><dd><p>shows the area of the standard deviation</p>
 </dd>
 </dl>
 </dd>

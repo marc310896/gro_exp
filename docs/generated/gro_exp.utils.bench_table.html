@@ -43,6 +43,7 @@
           <ul class="nav navbar-nav">
             
                 <li><a href="../api.html">API</a></li>
+                <li><a href="../pyDDB.html">pyDDB</a></li>
             
             
               <li class="dropdown globaltoc-container">
@@ -99,18 +100,18 @@
 <h1>gro_exp.utils.bench_table<a class="headerlink" href="#gro-exp-utils-bench-table" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="gro_exp.utils.bench_table">
-<span class="sig-prename descclassname"><span class="pre">gro_exp.utils.</span></span><span class="sig-name descname"><span class="pre">bench_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ns_h</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_con</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gro_exp.utils.bench_table" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">gro_exp.utils.</span></span><span class="sig-name descname"><span class="pre">bench_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ns_day</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cpus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ns</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nodes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">print_con</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#gro_exp.utils.bench_table" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function to plot speedup and cpu efficieny over the CPUs.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><dl class="simple">
-<dt><strong>ns_h</strong><span class="classifier">list</span></dt><dd><p>list with ns/h</p>
+<dt><strong>ns_day</strong><span class="classifier">list</span></dt><dd><p>list with ns/day</p>
 </dd>
-<dt><strong>cpus</strong><span class="classifier">list or int</span></dt><dd><p>list with used cpus or number of cpus per node if ns_h list is over nodes</p>
+<dt><strong>cpus</strong><span class="classifier">list or int</span></dt><dd><p>list with used cpus or number of cpus per node if ns_day list is over nodes</p>
 </dd>
 <dt><strong>ns</strong><span class="classifier">float</span></dt><dd><p>time which has to simulated to caculate the simulation time</p>
 </dd>
-<dt><strong>nodes</strong><span class="classifier">bool</span></dt><dd><p>if ns_h list is over nodes</p>
+<dt><strong>nodes</strong><span class="classifier">bool</span></dt><dd><p>if ns_day list is over nodes</p>
 </dd>
 <dt><strong>print_con</strong><span class="classifier">bool</span></dt><dd><p>if True to print in console</p>
 </dd>
@@ -140,7 +141,7 @@
     </p>
     <p>
         &copy; Copyright 2022, Hoegler.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.4.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
     </p>
   </div>
 </footer>
