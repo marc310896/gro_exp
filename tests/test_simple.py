@@ -43,9 +43,27 @@ class UserModelCase(unittest.TestCase):
         gro_exp.utils.msd("data/msd.xvg", is_print=True, is_plot=True)
 
     # Test function to read DDB Data Bank
-    def test_read_exp(self):
-        data = gro_exp.utils.read_exp(
-            "data/benzene_exp_density.xls", "DEN", temp=298.15, press=100000, tol_temp = 0.15, tol_p = 1000, p_nan=True, is_print=True, is_plot=True, area=[800,1000])
+    def test_ddb(self):
+        # Set the tempature area
+        temp_vec = np.linspace(280.15,300.15,21)
+
+        # Read the data with the following function
+        data, prop_dict = gro_exp.ddb.read_exp_temp_vec("data/benzene_exp_density.xls", temp_vec, "DEN", press=101325.000, p_nan=False, is_plot=True, is_display=False)
+
+        # Plot data for a specified temperature
+        temp = 288.15
+        gro_exp.ddb.plot_data(prop_dict,temp)
+
+        # Drop outliers for the considered temperature
+        data = gro_exp.ddb.drop_outliers(data,prop_dict,temp, [810,820])
+
+        # Plot new data dictonary
+        gro_exp.ddb.plot_means(data)
+
+    def utils(self):
+        data = gro_exp.utils.load_data("data/test.obj")
+        gro_exp.utils.load_data("output/test.obj", data)
+
 
     def test_benchmark_function(self):
         ns_h_1core = [0.762,1.344,2.045,2.755,3.448,4.013,4.199,4.518]

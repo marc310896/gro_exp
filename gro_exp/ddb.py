@@ -71,23 +71,23 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False,
     pd.to_numeric(df['T'])
 
     # Search for the desired temperature
-    a = df[df['T'] <= (temp + tol_temp)]
-    a = a[a['T'] >= (temp - tol_temp)]
+    df_woT = df[df['T'] <= (temp + tol_temp)]
+    df_woT = df_woT[df_woT['T'] >= (temp - tol_temp)]
     if area:
-        a = a[a[prop] <= area[1]]
-        a = a[a[prop] >= area[0]]
+        df_woT = df_woT[df_woT[prop] <= area[1]]
+        df_woT = df_woT[df_woT[prop] >= area[0]]
 
     # Search for the desired pressure
     if press:
-        if "P" in a:
+        if "P" in df_woT:
             pd.to_numeric(df['P'])
             if p_nan:
-                a['P'] = a['P'].fillna(press)
-            a = a[a['P'] <= (press + tol_p)]
-            a = a[a['P'] >= (press - tol_p)]
+                df_woT['P'] = df_woT['P'].fillna(press)
+            df_woT = df_woT[df_woT['P'] <= (press + tol_p)]
+            df_woT = df_woT[df_woT['P'] >= (press - tol_p)]
 
     # Write the prop in vector
-    data = a.to_dict()
+    data = df_woT.to_dict()
     prop_vec = []
     ref_vec = []
 
@@ -99,7 +99,7 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False,
         ref_vec.append(ref.split("] ")[1])
 
     # Save table with data points
-    table = a
+    table = df_woT
 
     # Plot selected data points
     if is_plot:
@@ -110,9 +110,9 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False,
         plt.xlabel("T (K)")
         plt.ylabel(str(prop + " (" + unit + ")"))
         if press:
-            if "P" in a:
+            if "P" in df_woT:
                 plt.subplot(1, 2, 2)
-                sns.scatterplot(x=a['P'], y=prop_vec)
+                sns.scatterplot(x=df_woT['P'], y=prop_vec)
                 plt.xlabel("p (bar)")
                 plt.ylabel(str(prop + " (" + unit + ")"))
 
@@ -220,7 +220,6 @@ def drop_outliers(data,prop_dict,temp,area):
 
     prop = [prop for prop in prop_dict[str(temp)] if area[1] > prop > area[0]]
     df = pd.DataFrame(data)
-    df = df.fillna("-")
     df.loc[df["Temperature (K)"] == temp, ["DEN (kg/m3)"]] = np.mean(prop)
     df.loc[df["Temperature (K)"] == temp, ["STD (kg/m3)"]] = np.std(prop)
     df.loc[df["Temperature (K)"] == temp, ["Number of data points"]] = len(prop)
@@ -271,5 +270,5 @@ def plot_means(data):
         sns.scatterplot(x=[data["Temperature (K)"][j]],y=[data["DEN (kg/m3)"][j]]  )
         plt.errorbar(data["Temperature (K)"][j],data["DEN (kg/m3)"][j],data["STD (kg/m3)"][j])
 
-    #plt.xlabel("$\mathrm{Temperature \ (K)}$")
-    #plt.ylabel("$\mathrm{Density} \ (\mathrm{kg \ m^{-2})}$")
+    plt.xlabel("$\mathrm{Temperature \ (K)}$")
+    plt.ylabel("$\mathrm{Density} \ (\mathrm{kg \ m^{-2})}$")
