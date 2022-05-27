@@ -13,14 +13,15 @@ Gromacs
      gro_exp.utils.msd
      gro_exp.utils.density
 
-Experimental Data
------------------
+Experimental Data (pyDDB)
+-------------------------
 
 .. currentmodule:: gro-exp
 .. autosummary::
     :toctree: generated/
 
-    gro_exp.utils.read_exp
+    gro_exp.ddb
+    gro_exp.utils
 
 Benchmark
 -----------------

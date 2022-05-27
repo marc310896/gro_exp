@@ -1,6 +1,7 @@
 import glob                        # use linux wildcard syntax
 import numpy as np
 import sys
+import pickle
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
@@ -224,125 +225,29 @@ def density(filename, is_print=False, is_plot=False):
     return length, density, density_mean
 
 
-def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False, is_plot=False, is_print=False, area=[]):
-    """
-    This function can read a DBB Excel file and returns the desired mean
-    property at the specified temperature.
+
+def save_data(link, data):
+    """Save an object files using pickle in the specified link.
 
     Parameters
     ----------
-    filename : string
-        Link to gromacs analyse output file
-    prop : string
-        property which you would like consider
-    temp : float
-        desired temperature
-    press : float
-        desired pressure
-    tol_temp : float, optional
-        tolerance for the target temperature
-    tol_p : float, optional
-        tolerance for target pressure
-    p_nan : bool, optional
-        consider all data points which has no specified pressure
-    is_plot : bool, optional
-        plot the values
-    is_print : bool, optional
-        print mean value, standard deviation and amount of data
-    area : list, optional
-        consider only the data in the specified area [a,b]
-
-    Returns
-    -------
-    mean : list
-        mean value of the considered property by the
-    std : list
-        standard deviation of the considered property
-    unit : string
-        string with the unit of the property
-    data_amount : integer
-        number of data points of the considered property
-    prop_vec : list
-        list of all data points
-    ref_vec : list
-        reference of the data points
-    table : obj
-        Pandas DataFrame with the selected data points
+    data : Object
+        Object to be saved
+    link : string
+        Specific link to save object
     """
 
-    # Read excel data file
-    df_all = pd.read_excel(filename)
+    with open(link, "wb") as f:
+        pickle.dump(data, f)
 
-    # Read unit and drop first row
-    unit = df_all[prop][0]
-    df_all = df_all.drop(index=0)
+def load_data(link):
+    """Load an object files using pickle in the specified link.
 
-    # Cut off references
-    rows_with_nan = df_all[df_all['T'].isnull()].index.tolist()
+    Parameters
+    ----------
+    link : string
+        Specific link to load object
+    """
 
-    # Reference Table
-    df_ref = df_all.truncate(before=int(rows_with_nan[0]))
-
-    # Valbool, optionalues table
-    df = df_all.truncate(after=int(rows_with_nan[0]))
-    pd.to_numeric(df['T'])
-
-    # Search for the desired temperature
-    a = df[df['T'] <= (temp + tol_temp)]
-    a = a[a['T'] >= (temp - tol_temp)]
-    if area:
-        a = a[a[prop] <= area[1]]
-        a = a[a[prop] >= area[0]]
-
-    # Search for the desired pressure
-    if press:
-        if "P" in a:
-            pd.to_numeric(df['P'])
-            if p_nan:
-                a['P'] = a['P'].fillna(press)
-            a = a[a['P'] <= (press + tol_p)]
-            a = a[a['P'] >= (press - tol_p)]
-
-    # Write the prop in vector
-    data = a.to_dict()
-    prop_vec = []
-    ref_vec = []
-
-    # Read reference of the choosen data points
-    for i in (data[prop]):
-        prop_vec.append(float(data[prop][i]))
-        ref = df_ref[df_ref['PCP Data Set#'] == (data['Ref. Number'][i])]
-        ref = ref['T'].values[0]
-        ref_vec.append(ref.split("] ")[1])
-
-    # Save table with data points
-    table = a
-
-    # Plot selected data points
-    if is_plot:
-        plt.figure(figsize=(13, 4))
-        plt.title(filename)
-        plt.subplot(1, 2, 1)
-        sns.scatterplot(x=a['T'], y=prop_vec)
-        plt.xlabel("T (K)")
-        plt.ylabel(str(prop + " (" + unit + ")"))
-        if press:
-            if "P" in a:
-                plt.subplot(1, 2, 2)
-                sns.scatterplot(x=a['P'], y=prop_vec)
-                plt.xlabel("p (bar)")
-                plt.ylabel(str(prop + " (" + unit + ")"))
-
-    # Calculate mean and std
-    data_amount = len(prop_vec)
-    mean = np.mean(prop_vec)
-    std = np.std(prop_vec)
-
-    # Print results
-    if is_print:
-        print("Mean (" + prop + ") : " + str(mean))
-        print("Std  (" + prop + ") : " + str(std))
-        print("Amount of data : " + str(len(prop_vec)))
-
-    #Return results
-    return mean, std, unit, data_amount, prop_vec, ref_vec, table
+    with open(link, 'rb') as f:
+        return pickle.load(f)
