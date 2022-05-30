@@ -62,7 +62,7 @@ class UserModelCase(unittest.TestCase):
 
     def utils(self):
         data = gro_exp.utils.load_data("data/test.obj")
-        gro_exp.utils.load_data("output/test.obj", data)
+        gro_exp.utils.save_data("output/test.obj", data)
 
 
     def test_benchmark_function(self):

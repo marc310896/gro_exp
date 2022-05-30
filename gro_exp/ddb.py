@@ -172,13 +172,16 @@ def read_exp_temp_vec(filename,temp_vec, prop, press, tol_temp=0.2,  tol_p = 100
     std_prop = []
     num_data = []
     prop_dict = {}
+    reference = []
     for temp in temp_vec:
         mean, std, unit, data_amount, prop_vec, ref_vec, table = read_exp(filename, prop, temp, press, tol_temp, tol_p, p_nan)
-
-        prop_dict[str(temp)]=prop_vec
+        prop_dict[str(temp)] = {}
+        prop_dict[str(temp)][prop] = prop_vec
+        prop_dict[str(temp)]["Reference"] = ref_vec
         data_prop.append(mean)
         num_data.append(data_amount)
         std_prop.append(std)
+        reference.append(ref_vec)
 
     if is_plot:
         for j in range(len(data_prop)):
@@ -188,7 +191,7 @@ def read_exp_temp_vec(filename,temp_vec, prop, press, tol_temp=0.2,  tol_p = 100
         plt.xlabel("$\mathrm{Temperature \ (K)}$")
         plt.ylabel("$\mathrm{Density} \ (\mathrm{kg \ m^{-2})}$")
 
-    data = {"Temperature (K)": temp_vec, str(prop + " (" + str(unit) + ")"): data_prop, "STD (" + str(unit) + ")": std_prop, "Number of data points": num_data}
+    data = {"Temperature (K)": temp_vec, str(prop + " (" + str(unit) + ")"): data_prop, "STD (" + str(unit) + ")": std_prop, "Number of data points": num_data, "References": reference}
 
     if is_display:
         df = pd.DataFrame(data)
@@ -217,17 +220,20 @@ def drop_outliers(data,prop_dict,temp,area):
     data : dictonary
         dictonary with the mean property, standard deviation and number of data points for the specified temperatures
     """
-
-    prop = [prop for prop in prop_dict[str(temp)] if area[1] > prop > area[0]]
-    df = pd.DataFrame(data)
-    df.loc[df["Temperature (K)"] == temp, ["DEN (kg/m3)"]] = np.mean(prop)
-    df.loc[df["Temperature (K)"] == temp, ["STD (kg/m3)"]] = np.std(prop)
-    df.loc[df["Temperature (K)"] == temp, ["Number of data points"]] = len(prop)
+    for key in prop_dict[str(temp)].keys():
+        if not key=="Reference":
+            prop = [prop for prop in prop_dict[str(temp)][key] if area[1] > prop > area[0]]
+            prop_ref = [prop_ref for prop,prop_ref in zip(prop_dict[str(temp)][key],prop_dict[str(temp)]["Reference"]) if area[1] > prop > area[0]]
+            df = pd.DataFrame(data)
+            df.loc[df["Temperature (K)"] == temp, ["DEN (kg/m3)"]] = np.mean(prop)
+            df.loc[df["Temperature (K)"] == temp, ["STD (kg/m3)"]] = np.std(prop)
+            df.loc[df["Temperature (K)"] == temp, ["Number of data points"]] = len(prop)
+            df.loc[df["Temperature (K)"] == temp, ["Reference point"]] = prop_ref
 
     data = df.to_dict()
     return data
 
-def plot_data(prop_dict, temp, mean=True, std=True):
+def plot_data(prop_dict, temp, mean=True, std=True, is_display=False):
     """
     This function can be used to find outliers in the data. It is possible to plot the data points for a specified temperature.
 
@@ -242,18 +248,26 @@ def plot_data(prop_dict, temp, mean=True, std=True):
     std: bool, optional
         shows the area of the standard deviation
 
-
+    Returns
+    -------
+    data : list
+        lit of all data points at the specified temperature
     """
-    plt.scatter([i+1 for i in range(len(prop_dict[str(temp)]))],prop_dict[str(temp)], label="Data Points")
-    if mean:
-        plt.plot([i for i in range(len(prop_dict[str(temp)])+2)],[np.mean(prop_dict[str(temp)]) for i in range(len(prop_dict[str(temp)])+2)], label="Mean")
-    if std:
-        plt.axhspan(ymin=np.mean(prop_dict[str(temp)])-np.std(prop_dict[str(temp)]),ymax=np.mean(prop_dict[str(temp)])+np.std(prop_dict[str(temp)]),facecolor="grey", alpha=0.3, label="STD")
-    plt.xlim([0,len(prop_dict[str(temp)])+1])
-    plt.legend()
-    plt.xlabel("Number of data points$")
-    plt.ylabel("$Property$")
-
+    
+    for key in prop_dict[str(temp)].keys():
+        if not key=="Reference":
+            plt.scatter([i+1 for i in range(len(prop_dict[str(temp)][key]))],prop_dict[str(temp)][key], label="Data Points")
+            if mean:
+                plt.plot([i for i in range(len(prop_dict[str(temp)][key])+2)],[np.mean(prop_dict[str(temp)][key]) for i in range(len(prop_dict[str(temp)][key])+2)], label="Mean")
+            if std:
+                plt.axhspan(ymin=np.mean(prop_dict[str(temp)][key])-np.std(prop_dict[str(temp)][key]),ymax=np.mean(prop_dict[str(temp)][key])+np.std(prop_dict[str(temp)][key]),facecolor="grey", alpha=0.3, label="STD")
+            plt.xlim([0,len(prop_dict[str(temp)][key])+1])
+            plt.legend()
+            plt.xlabel("Number of data points")
+            plt.ylabel("Property")
+            data={"Mean": np.mean(prop_dict[str(temp)][key]), "STD": np.std(prop_dict[str(temp)][key]), "Number of data points": len(prop_dict[str(temp)][key])}
+            display(pd.DataFrame(data, index=[str(temp)]))
+    return prop_dict[str(temp)]
 
 
 def plot_means(data):
