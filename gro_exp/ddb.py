@@ -228,7 +228,7 @@ def drop_outliers(data,prop_dict,temp,area):
             df.loc[df["Temperature (K)"] == temp, ["DEN (kg/m3)"]] = np.mean(prop)
             df.loc[df["Temperature (K)"] == temp, ["STD (kg/m3)"]] = np.std(prop)
             df.loc[df["Temperature (K)"] == temp, ["Number of data points"]] = len(prop)
-            df.loc[df["Temperature (K)"] == temp, ["Reference point"]] = prop_ref
+            #df.loc[df["Temperature (K)"] == temp, ["Reference point"]] = prop_ref
 
     data = df.to_dict()
     return data
@@ -266,7 +266,10 @@ def plot_data(prop_dict, temp, mean=True, std=True, is_display=False):
             plt.xlabel("Number of data points")
             plt.ylabel("Property")
             data={"Mean": np.mean(prop_dict[str(temp)][key]), "STD": np.std(prop_dict[str(temp)][key]), "Number of data points": len(prop_dict[str(temp)][key])}
-            display(pd.DataFrame(data, index=[str(temp)]))
+            
+            if is_display:
+                df = pd.DataFrame(data, index=[str(temp)])
+                display(df)
     return prop_dict[str(temp)]
 
 

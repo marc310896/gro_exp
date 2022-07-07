@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
     <title>Example Notebook for pyDB &#8212; gro-exp 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -11,6 +11,7 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -96,21 +97,21 @@
   <div class="row">
     <div class="body col-md-12 content" role="main">
       
-  <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">gro_exp</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+  <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">gro_exp</span>
 </pre></div>
 </div>
 <section id="example-notebook-for-pydb">
-<h1>Example Notebook for pyDB<a class="headerlink" href="#example-notebook-for-pydb" title="Permalink to this headline">¶</a></h1>
+<h1>Example Notebook for pyDB<a class="headerlink" href="#example-notebook-for-pydb" title="Permalink to this heading">¶</a></h1>
 <p>Read the density data from two components from a DDB Data Excel File
 over a specified temperature area for a pressure of 1 bar</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the tempature area</span>
 <span class="n">temp_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">280.15</span><span class="p">,</span><span class="mf">300.15</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
 
 <span class="c1"># Read the data with the following function</span>
-<span class="n">data</span><span class="p">,</span> <span class="n">prop_dict</span> <span class="o">=</span> <span class="n">gro_exp</span><span class="o">.</span><span class="n">ddb</span><span class="o">.</span><span class="n">read_exp_temp_vec</span><span class="p">(</span><span class="s2">&quot;data/benzene_exp_density.xls&quot;</span><span class="p">,</span> <span class="n">temp_vec</span><span class="p">,</span> <span class="s2">&quot;DEN&quot;</span><span class="p">,</span> <span class="n">press</span><span class="o">=</span><span class="mf">101325.000</span><span class="p">,</span> <span class="n">p_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">prop_dict</span> <span class="o">=</span> <span class="n">gro_exp</span><span class="o">.</span><span class="n">ddb</span><span class="o">.</span><span class="n">read_exp_temp_vec</span><span class="p">(</span><span class="s2">&quot;benzene_exp_density.xls&quot;</span><span class="p">,</span> <span class="n">temp_vec</span><span class="p">,</span> <span class="s2">&quot;DEN&quot;</span><span class="p">,</span> <span class="n">press</span><span class="o">=</span><span class="mf">101325.000</span><span class="p">,</span><span class="n">tol_p</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">p_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="_images/output_2_0.png" src="_images/output_2_0.png" />
@@ -124,11 +125,7 @@ content for these dictonarys</p>
 
 <span class="c1"># Data frames</span>
 <span class="n">df_mean</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">df_prop_295</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">prop_dict</span><span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">temp</span><span class="p">)],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Density (T=&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;K)&quot;</span><span class="p">])</span>
-
-<span class="c1"># Display the data frames</span>
 <span class="n">display</span><span class="p">(</span><span class="n">df_mean</span><span class="p">)</span>
-<span class="n">display</span><span class="p">(</span><span class="n">df_prop_295</span><span class="p">)</span>
 </pre></div>
 </div>
 <div>
@@ -153,6 +150,7 @@ content for these dictonarys</p>
       <th>DEN (kg/m3)</th>
       <th>STD (kg/m3)</th>
       <th>Number of data points</th>
+      <th>References</th>
     </tr>
   </thead>
   <tbody>
@@ -162,6 +160,7 @@ content for these dictonarys</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>1</th>
@@ -169,6 +168,7 @@ content for these dictonarys</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>2</th>
@@ -176,6 +176,7 @@ content for these dictonarys</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>3</th>
@@ -183,6 +184,7 @@ content for these dictonarys</p>
       <td>889.606250</td>
       <td>0.208877</td>
       <td>12.0</td>
+      <td>[Sun T.F., Schouten J.A., Trappeniers N.J., Bi...</td>
     </tr>
     <tr>
       <th>4</th>
@@ -190,6 +192,7 @@ content for these dictonarys</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>5</th>
@@ -197,6 +200,7 @@ content for these dictonarys</p>
       <td>887.500000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>6</th>
@@ -204,6 +208,7 @@ content for these dictonarys</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>7</th>
@@ -211,6 +216,7 @@ content for these dictonarys</p>
       <td>885.400000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>8</th>
@@ -218,6 +224,7 @@ content for these dictonarys</p>
       <td>884.275056</td>
       <td>0.154745</td>
       <td>18.0</td>
+      <td>[Nowak J., Malecki J., Thiebaut J.-M., Rivail ...</td>
     </tr>
     <tr>
       <th>9</th>
@@ -225,6 +232,7 @@ content for these dictonarys</p>
       <td>883.340000</td>
       <td>0.140000</td>
       <td>2.0</td>
+      <td>[Meyer J., Mylius B., Z.Phys.Chem.(Leipzig), 9...</td>
     </tr>
     <tr>
       <th>10</th>
@@ -232,6 +240,7 @@ content for these dictonarys</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>11</th>
@@ -239,6 +248,7 @@ content for these dictonarys</p>
       <td>881.100000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>12</th>
@@ -246,6 +256,7 @@ content for these dictonarys</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>13</th>
@@ -253,6 +264,7 @@ content for these dictonarys</p>
       <td>878.951217</td>
       <td>0.657108</td>
       <td>69.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>14</th>
@@ -260,6 +272,7 @@ content for these dictonarys</p>
       <td>876.400000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Golubev I.F., Frolova M.G., Trudy Gos.NIPI In...</td>
     </tr>
     <tr>
       <th>15</th>
@@ -267,6 +280,7 @@ content for these dictonarys</p>
       <td>876.900000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>16</th>
@@ -274,6 +288,7 @@ content for these dictonarys</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>17</th>
@@ -281,6 +296,7 @@ content for these dictonarys</p>
       <td>873.600000</td>
       <td>0.778888</td>
       <td>3.0</td>
+      <td>[Hayworth K.E., Lenoir J.M., Hipkin H.G., J.Ch...</td>
     </tr>
     <tr>
       <th>18</th>
@@ -288,6 +304,7 @@ content for these dictonarys</p>
       <td>873.548792</td>
       <td>0.825668</td>
       <td>197.0</td>
+      <td>[Nowak J., Malecki J., Thiebaut J.-M., Rivail ...</td>
     </tr>
     <tr>
       <th>19</th>
@@ -295,6 +312,7 @@ content for these dictonarys</p>
       <td>872.600000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>20</th>
@@ -302,132 +320,56 @@ content for these dictonarys</p>
       <td>871.500000</td>
       <td>0.000000</td>
       <td>1.0</td>
-    </tr>
-  </tbody>
-</table>
-</div><div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>Density (T=288.15K)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>884.200</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>884.380</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>884.300</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>884.267</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>884.000</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>884.110</td>
-    </tr>
-    <tr>
-      <th>6</th>
-      <td>884.134</td>
-    </tr>
-    <tr>
-      <th>7</th>
-      <td>884.250</td>
-    </tr>
-    <tr>
-      <th>8</th>
-      <td>884.476</td>
-    </tr>
-    <tr>
-      <th>9</th>
-      <td>884.340</td>
-    </tr>
-    <tr>
-      <th>10</th>
-      <td>884.411</td>
-    </tr>
-    <tr>
-      <th>11</th>
-      <td>884.100</td>
-    </tr>
-    <tr>
-      <th>12</th>
-      <td>884.300</td>
-    </tr>
-    <tr>
-      <th>13</th>
-      <td>884.200</td>
-    </tr>
-    <tr>
-      <th>14</th>
-      <td>884.183</td>
-    </tr>
-    <tr>
-      <th>15</th>
-      <td>884.300</td>
-    </tr>
-    <tr>
-      <th>16</th>
-      <td>884.300</td>
-    </tr>
-    <tr>
-      <th>17</th>
-      <td>884.700</td>
+      <td>[Singh S., Sivanarayana K., Kushwaha R., Praka...</td>
     </tr>
   </tbody>
 </table>
 </div><p>It is possible to plot the data points at a temperature to see the
 outliers</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gro_exp</span><span class="o">.</span><span class="n">ddb</span><span class="o">.</span><span class="n">plot_data</span><span class="p">(</span><span class="n">prop_dict</span><span class="p">,</span><span class="n">temp</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">([</span><span class="mi">800</span><span class="p">,</span><span class="mi">900</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot data for a specified temperature</span>
+<span class="n">temp</span><span class="o">=</span><span class="mf">298.15</span>
+<span class="n">temp_off</span> <span class="o">=</span> <span class="n">gro_exp</span><span class="o">.</span><span class="n">ddb</span><span class="o">.</span><span class="n">plot_data</span><span class="p">(</span><span class="n">prop_dict</span><span class="p">,</span><span class="n">temp</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="mf">800.0</span><span class="p">,</span> <span class="mf">900.0</span><span class="p">)</span>
-</pre></div>
-</div>
-<img alt="_images/output_6_1.png" src="_images/output_6_1.png" />
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>Mean</th>
+      <th>STD</th>
+      <th>Number of data points</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>298.15</th>
+      <td>873.548792</td>
+      <td>0.825668</td>
+      <td>197</td>
+    </tr>
+  </tbody>
+</table>
+</div><img alt="_images/output_6_1.png" src="_images/output_6_1.png" />
 <p>If you specified the outliers you can drop these and calculate a new
 data dictonary</p>
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_mean</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">gro_exp</span><span class="o">.</span><span class="n">ddb</span><span class="o">.</span><span class="n">drop_outliers</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">prop_dict</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span> <span class="p">[</span><span class="mi">810</span><span class="p">,</span><span class="mi">820</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Drop outliers for the considered temperature</span>
+<span class="n">df_mean</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">gro_exp</span><span class="o">.</span><span class="n">ddb</span><span class="o">.</span><span class="n">drop_outliers</span><span class="p">(</span><span class="n">data</span><span class="p">,</span><span class="n">prop_dict</span><span class="p">,</span><span class="n">temp</span><span class="p">,</span> <span class="p">[</span><span class="mi">872</span><span class="p">,</span><span class="mi">876</span><span class="p">])</span>
 <span class="n">display</span><span class="p">(</span><span class="n">df_mean</span><span class="p">)</span>
-</pre></div>
-</div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">Python</span><span class="o">.</span><span class="n">framework</span><span class="o">/</span><span class="n">Versions</span><span class="o">/</span><span class="mf">3.9</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">numpy</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">fromnumeric</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">3474</span><span class="p">:</span> <span class="ne">RuntimeWarning</span><span class="p">:</span> <span class="n">Mean</span> <span class="n">of</span> <span class="n">empty</span> <span class="nb">slice</span><span class="o">.</span>
-  <span class="k">return</span> <span class="n">_methods</span><span class="o">.</span><span class="n">_mean</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span>
-<span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">Python</span><span class="o">.</span><span class="n">framework</span><span class="o">/</span><span class="n">Versions</span><span class="o">/</span><span class="mf">3.9</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">numpy</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">_methods</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">189</span><span class="p">:</span> <span class="ne">RuntimeWarning</span><span class="p">:</span> <span class="n">invalid</span> <span class="n">value</span> <span class="n">encountered</span> <span class="ow">in</span> <span class="n">double_scalars</span>
-  <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">ret</span> <span class="o">/</span> <span class="n">rcount</span><span class="p">)</span>
-<span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">Python</span><span class="o">.</span><span class="n">framework</span><span class="o">/</span><span class="n">Versions</span><span class="o">/</span><span class="mf">3.9</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">numpy</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">_methods</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">264</span><span class="p">:</span> <span class="ne">RuntimeWarning</span><span class="p">:</span> <span class="n">Degrees</span> <span class="n">of</span> <span class="n">freedom</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="k">for</span> <span class="nb">slice</span>
-  <span class="n">ret</span> <span class="o">=</span> <span class="n">_var</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="n">axis</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">,</span> <span class="n">ddof</span><span class="o">=</span><span class="n">ddof</span><span class="p">,</span>
-<span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">Python</span><span class="o">.</span><span class="n">framework</span><span class="o">/</span><span class="n">Versions</span><span class="o">/</span><span class="mf">3.9</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">numpy</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">_methods</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">222</span><span class="p">:</span> <span class="ne">RuntimeWarning</span><span class="p">:</span> <span class="n">invalid</span> <span class="n">value</span> <span class="n">encountered</span> <span class="ow">in</span> <span class="n">true_divide</span>
-  <span class="n">arrmean</span> <span class="o">=</span> <span class="n">um</span><span class="o">.</span><span class="n">true_divide</span><span class="p">(</span><span class="n">arrmean</span><span class="p">,</span> <span class="n">div</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">arrmean</span><span class="p">,</span> <span class="n">casting</span><span class="o">=</span><span class="s1">&#39;unsafe&#39;</span><span class="p">,</span>
-<span class="o">/</span><span class="n">Library</span><span class="o">/</span><span class="n">Frameworks</span><span class="o">/</span><span class="n">Python</span><span class="o">.</span><span class="n">framework</span><span class="o">/</span><span class="n">Versions</span><span class="o">/</span><span class="mf">3.9</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">python3</span><span class="mf">.9</span><span class="o">/</span><span class="n">site</span><span class="o">-</span><span class="n">packages</span><span class="o">/</span><span class="n">numpy</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">_methods</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">256</span><span class="p">:</span> <span class="ne">RuntimeWarning</span><span class="p">:</span> <span class="n">invalid</span> <span class="n">value</span> <span class="n">encountered</span> <span class="ow">in</span> <span class="n">double_scalars</span>
-  <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">(</span><span class="n">ret</span> <span class="o">/</span> <span class="n">rcount</span><span class="p">)</span>
 </pre></div>
 </div>
 <div>
@@ -452,6 +394,7 @@ data dictonary</p>
       <th>DEN (kg/m3)</th>
       <th>STD (kg/m3)</th>
       <th>Number of data points</th>
+      <th>References</th>
     </tr>
   </thead>
   <tbody>
@@ -461,6 +404,7 @@ data dictonary</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>1</th>
@@ -468,6 +412,7 @@ data dictonary</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>2</th>
@@ -475,6 +420,7 @@ data dictonary</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>3</th>
@@ -482,6 +428,7 @@ data dictonary</p>
       <td>889.606250</td>
       <td>0.208877</td>
       <td>12.0</td>
+      <td>[Sun T.F., Schouten J.A., Trappeniers N.J., Bi...</td>
     </tr>
     <tr>
       <th>4</th>
@@ -489,6 +436,7 @@ data dictonary</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>5</th>
@@ -496,6 +444,7 @@ data dictonary</p>
       <td>887.500000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>6</th>
@@ -503,6 +452,7 @@ data dictonary</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>7</th>
@@ -510,6 +460,7 @@ data dictonary</p>
       <td>885.400000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>8</th>
@@ -517,6 +468,7 @@ data dictonary</p>
       <td>884.275056</td>
       <td>0.154745</td>
       <td>18.0</td>
+      <td>[Nowak J., Malecki J., Thiebaut J.-M., Rivail ...</td>
     </tr>
     <tr>
       <th>9</th>
@@ -524,6 +476,7 @@ data dictonary</p>
       <td>883.340000</td>
       <td>0.140000</td>
       <td>2.0</td>
+      <td>[Meyer J., Mylius B., Z.Phys.Chem.(Leipzig), 9...</td>
     </tr>
     <tr>
       <th>10</th>
@@ -531,6 +484,7 @@ data dictonary</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>11</th>
@@ -538,6 +492,7 @@ data dictonary</p>
       <td>881.100000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>12</th>
@@ -545,6 +500,7 @@ data dictonary</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>13</th>
@@ -552,6 +508,7 @@ data dictonary</p>
       <td>878.951217</td>
       <td>0.657108</td>
       <td>69.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>14</th>
@@ -559,6 +516,7 @@ data dictonary</p>
       <td>876.400000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Golubev I.F., Frolova M.G., Trudy Gos.NIPI In...</td>
     </tr>
     <tr>
       <th>15</th>
@@ -566,6 +524,7 @@ data dictonary</p>
       <td>876.900000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>16</th>
@@ -573,6 +532,7 @@ data dictonary</p>
       <td>NaN</td>
       <td>NaN</td>
       <td>NaN</td>
+      <td>[]</td>
     </tr>
     <tr>
       <th>17</th>
@@ -580,6 +540,7 @@ data dictonary</p>
       <td>873.600000</td>
       <td>0.778888</td>
       <td>3.0</td>
+      <td>[Hayworth K.E., Lenoir J.M., Hipkin H.G., J.Ch...</td>
     </tr>
     <tr>
       <th>18</th>
@@ -587,6 +548,7 @@ data dictonary</p>
       <td>873.548792</td>
       <td>0.825668</td>
       <td>197.0</td>
+      <td>[Nowak J., Malecki J., Thiebaut J.-M., Rivail ...</td>
     </tr>
     <tr>
       <th>19</th>
@@ -594,6 +556,7 @@ data dictonary</p>
       <td>872.600000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
     </tr>
     <tr>
       <th>20</th>
@@ -601,6 +564,7 @@ data dictonary</p>
       <td>871.500000</td>
       <td>0.000000</td>
       <td>1.0</td>
+      <td>[Singh S., Sivanarayana K., Kushwaha R., Praka...</td>
     </tr>
   </tbody>
 </table>
@@ -613,8 +577,10 @@ data dictonary</p>
 again</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">gro_exp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">save_data</span><span class="p">(</span><span class="s2">&quot;test.obj&quot;</span><span class="p">,</span><span class="n">data</span><span class="p">)</span>
 <span class="n">data</span> <span class="o">=</span> <span class="n">gro_exp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">load_data</span><span class="p">(</span><span class="s2">&quot;test.obj&quot;</span><span class="p">)</span>
+<span class="n">gro_exp</span><span class="o">.</span><span class="n">ddb</span><span class="o">.</span><span class="n">plot_means</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
+<img alt="_images/output_12_0.png" src="_images/output_12_0.png" />
 </section>
 
 
@@ -630,7 +596,7 @@ again</p>
     </p>
     <p>
         &copy; Copyright 2022, Hoegler.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.5.0.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
     </p>
   </div>
 </footer>

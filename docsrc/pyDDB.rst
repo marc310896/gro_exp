@@ -1,9 +1,9 @@
 .. code:: ipython3
 
-    import gro_exp
     import numpy as np
     import matplotlib.pyplot as plt
     import pandas as pd
+    import gro_exp
 
 Example Notebook for pyDB
 =========================
@@ -15,9 +15,9 @@ over a specified temperature area for a pressure of 1 bar
 
     # Set the tempature area
     temp_vec = np.linspace(280.15,300.15,21)
-
+    
     # Read the data with the following function
-    data, prop_dict = gro_exp.ddb.read_exp_temp_vec("data/benzene_exp_density.xls", temp_vec, "DEN", press=101325.000, p_nan=False, is_plot=True, is_display=False)
+    data, prop_dict = gro_exp.ddb.read_exp_temp_vec("benzene_exp_density.xls", temp_vec, "DEN", press=101325.000,tol_p=10000, p_nan=False, is_plot=True, is_display=False)
 
 
 
@@ -35,14 +35,11 @@ content for these dictonarys
 
     # Define the temperature which you would like consider
     temp = 288.15
-
-    # Data frames
+    
+    # Data frames 
     df_mean = pd.DataFrame(data)
-    df_prop_295 = pd.DataFrame(prop_dict[str(temp)], columns=["Density (T=" + str(temp) + "K)"])
-
-    # Display the data frames
     display(df_mean)
-    display(df_prop_295)
+
 
 
 
@@ -53,11 +50,11 @@ content for these dictonarys
         .dataframe tbody tr th:only-of-type {
             vertical-align: middle;
         }
-
+    
         .dataframe tbody tr th {
             vertical-align: top;
         }
-
+    
         .dataframe thead th {
             text-align: right;
         }
@@ -70,6 +67,7 @@ content for these dictonarys
           <th>DEN (kg/m3)</th>
           <th>STD (kg/m3)</th>
           <th>Number of data points</th>
+          <th>References</th>
         </tr>
       </thead>
       <tbody>
@@ -79,6 +77,7 @@ content for these dictonarys
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>1</th>
@@ -86,6 +85,7 @@ content for these dictonarys
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>2</th>
@@ -93,6 +93,7 @@ content for these dictonarys
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>3</th>
@@ -100,6 +101,7 @@ content for these dictonarys
           <td>889.606250</td>
           <td>0.208877</td>
           <td>12.0</td>
+          <td>[Sun T.F., Schouten J.A., Trappeniers N.J., Bi...</td>
         </tr>
         <tr>
           <th>4</th>
@@ -107,6 +109,7 @@ content for these dictonarys
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>5</th>
@@ -114,6 +117,7 @@ content for these dictonarys
           <td>887.500000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>6</th>
@@ -121,6 +125,7 @@ content for these dictonarys
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>7</th>
@@ -128,6 +133,7 @@ content for these dictonarys
           <td>885.400000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>8</th>
@@ -135,6 +141,7 @@ content for these dictonarys
           <td>884.275056</td>
           <td>0.154745</td>
           <td>18.0</td>
+          <td>[Nowak J., Malecki J., Thiebaut J.-M., Rivail ...</td>
         </tr>
         <tr>
           <th>9</th>
@@ -142,6 +149,7 @@ content for these dictonarys
           <td>883.340000</td>
           <td>0.140000</td>
           <td>2.0</td>
+          <td>[Meyer J., Mylius B., Z.Phys.Chem.(Leipzig), 9...</td>
         </tr>
         <tr>
           <th>10</th>
@@ -149,6 +157,7 @@ content for these dictonarys
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>11</th>
@@ -156,6 +165,7 @@ content for these dictonarys
           <td>881.100000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>12</th>
@@ -163,6 +173,7 @@ content for these dictonarys
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>13</th>
@@ -170,6 +181,7 @@ content for these dictonarys
           <td>878.951217</td>
           <td>0.657108</td>
           <td>69.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>14</th>
@@ -177,6 +189,7 @@ content for these dictonarys
           <td>876.400000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Golubev I.F., Frolova M.G., Trudy Gos.NIPI In...</td>
         </tr>
         <tr>
           <th>15</th>
@@ -184,6 +197,7 @@ content for these dictonarys
           <td>876.900000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>16</th>
@@ -191,6 +205,7 @@ content for these dictonarys
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>17</th>
@@ -198,6 +213,7 @@ content for these dictonarys
           <td>873.600000</td>
           <td>0.778888</td>
           <td>3.0</td>
+          <td>[Hayworth K.E., Lenoir J.M., Hipkin H.G., J.Ch...</td>
         </tr>
         <tr>
           <th>18</th>
@@ -205,6 +221,7 @@ content for these dictonarys
           <td>873.548792</td>
           <td>0.825668</td>
           <td>197.0</td>
+          <td>[Nowak J., Malecki J., Thiebaut J.-M., Rivail ...</td>
         </tr>
         <tr>
           <th>19</th>
@@ -212,6 +229,7 @@ content for these dictonarys
           <td>872.600000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>20</th>
@@ -219,108 +237,7 @@ content for these dictonarys
           <td>871.500000</td>
           <td>0.000000</td>
           <td>1.0</td>
-        </tr>
-      </tbody>
-    </table>
-    </div>
-
-
-
-.. raw:: html
-
-    <div>
-    <style scoped>
-        .dataframe tbody tr th:only-of-type {
-            vertical-align: middle;
-        }
-
-        .dataframe tbody tr th {
-            vertical-align: top;
-        }
-
-        .dataframe thead th {
-            text-align: right;
-        }
-    </style>
-    <table border="1" class="dataframe">
-      <thead>
-        <tr style="text-align: right;">
-          <th></th>
-          <th>Density (T=288.15K)</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <th>0</th>
-          <td>884.200</td>
-        </tr>
-        <tr>
-          <th>1</th>
-          <td>884.380</td>
-        </tr>
-        <tr>
-          <th>2</th>
-          <td>884.300</td>
-        </tr>
-        <tr>
-          <th>3</th>
-          <td>884.267</td>
-        </tr>
-        <tr>
-          <th>4</th>
-          <td>884.000</td>
-        </tr>
-        <tr>
-          <th>5</th>
-          <td>884.110</td>
-        </tr>
-        <tr>
-          <th>6</th>
-          <td>884.134</td>
-        </tr>
-        <tr>
-          <th>7</th>
-          <td>884.250</td>
-        </tr>
-        <tr>
-          <th>8</th>
-          <td>884.476</td>
-        </tr>
-        <tr>
-          <th>9</th>
-          <td>884.340</td>
-        </tr>
-        <tr>
-          <th>10</th>
-          <td>884.411</td>
-        </tr>
-        <tr>
-          <th>11</th>
-          <td>884.100</td>
-        </tr>
-        <tr>
-          <th>12</th>
-          <td>884.300</td>
-        </tr>
-        <tr>
-          <th>13</th>
-          <td>884.200</td>
-        </tr>
-        <tr>
-          <th>14</th>
-          <td>884.183</td>
-        </tr>
-        <tr>
-          <th>15</th>
-          <td>884.300</td>
-        </tr>
-        <tr>
-          <th>16</th>
-          <td>884.300</td>
-        </tr>
-        <tr>
-          <th>17</th>
-          <td>884.700</td>
+          <td>[Singh S., Sivanarayana K., Kushwaha R., Praka...</td>
         </tr>
       </tbody>
     </table>
@@ -332,16 +249,48 @@ outliers
 
 .. code:: ipython3
 
-    gro_exp.ddb.plot_data(prop_dict,temp)
-    plt.ylim([800,900])
+    # Plot data for a specified temperature
+    temp=298.15
+    temp_off = gro_exp.ddb.plot_data(prop_dict,temp)
 
 
 
 
-.. parsed-literal::
+.. raw:: html
 
-    (800.0, 900.0)
-
+    <div>
+    <style scoped>
+        .dataframe tbody tr th:only-of-type {
+            vertical-align: middle;
+        }
+    
+        .dataframe tbody tr th {
+            vertical-align: top;
+        }
+    
+        .dataframe thead th {
+            text-align: right;
+        }
+    </style>
+    <table border="1" class="dataframe">
+      <thead>
+        <tr style="text-align: right;">
+          <th></th>
+          <th>Mean</th>
+          <th>STD</th>
+          <th>Number of data points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>298.15</th>
+          <td>873.548792</td>
+          <td>0.825668</td>
+          <td>197</td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
 
 
 
@@ -353,24 +302,12 @@ data dictonary
 
 .. code:: ipython3
 
+    # Drop outliers for the considered temperature
     df_mean = pd.DataFrame(data)
-    data = gro_exp.ddb.drop_outliers(data,prop_dict,temp, [810,820])
+    data = gro_exp.ddb.drop_outliers(data,prop_dict,temp, [872,876])
     display(df_mean)
+    
 
-
-
-.. parsed-literal::
-
-    /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/numpy/core/fromnumeric.py:3474: RuntimeWarning: Mean of empty slice.
-      return _methods._mean(a, axis=axis, dtype=dtype,
-    /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/numpy/core/_methods.py:189: RuntimeWarning: invalid value encountered in double_scalars
-      ret = ret.dtype.type(ret / rcount)
-    /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/numpy/core/_methods.py:264: RuntimeWarning: Degrees of freedom <= 0 for slice
-      ret = _var(a, axis=axis, dtype=dtype, out=out, ddof=ddof,
-    /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/numpy/core/_methods.py:222: RuntimeWarning: invalid value encountered in true_divide
-      arrmean = um.true_divide(arrmean, div, out=arrmean, casting='unsafe',
-    /Library/Frameworks/Python.framework/Versions/3.9/lib/python3.9/site-packages/numpy/core/_methods.py:256: RuntimeWarning: invalid value encountered in double_scalars
-      ret = ret.dtype.type(ret / rcount)
 
 
 
@@ -381,11 +318,11 @@ data dictonary
         .dataframe tbody tr th:only-of-type {
             vertical-align: middle;
         }
-
+    
         .dataframe tbody tr th {
             vertical-align: top;
         }
-
+    
         .dataframe thead th {
             text-align: right;
         }
@@ -398,6 +335,7 @@ data dictonary
           <th>DEN (kg/m3)</th>
           <th>STD (kg/m3)</th>
           <th>Number of data points</th>
+          <th>References</th>
         </tr>
       </thead>
       <tbody>
@@ -407,6 +345,7 @@ data dictonary
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>1</th>
@@ -414,6 +353,7 @@ data dictonary
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>2</th>
@@ -421,6 +361,7 @@ data dictonary
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>3</th>
@@ -428,6 +369,7 @@ data dictonary
           <td>889.606250</td>
           <td>0.208877</td>
           <td>12.0</td>
+          <td>[Sun T.F., Schouten J.A., Trappeniers N.J., Bi...</td>
         </tr>
         <tr>
           <th>4</th>
@@ -435,6 +377,7 @@ data dictonary
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>5</th>
@@ -442,6 +385,7 @@ data dictonary
           <td>887.500000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>6</th>
@@ -449,6 +393,7 @@ data dictonary
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>7</th>
@@ -456,6 +401,7 @@ data dictonary
           <td>885.400000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>8</th>
@@ -463,6 +409,7 @@ data dictonary
           <td>884.275056</td>
           <td>0.154745</td>
           <td>18.0</td>
+          <td>[Nowak J., Malecki J., Thiebaut J.-M., Rivail ...</td>
         </tr>
         <tr>
           <th>9</th>
@@ -470,6 +417,7 @@ data dictonary
           <td>883.340000</td>
           <td>0.140000</td>
           <td>2.0</td>
+          <td>[Meyer J., Mylius B., Z.Phys.Chem.(Leipzig), 9...</td>
         </tr>
         <tr>
           <th>10</th>
@@ -477,6 +425,7 @@ data dictonary
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>11</th>
@@ -484,6 +433,7 @@ data dictonary
           <td>881.100000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>12</th>
@@ -491,6 +441,7 @@ data dictonary
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>13</th>
@@ -498,6 +449,7 @@ data dictonary
           <td>878.951217</td>
           <td>0.657108</td>
           <td>69.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>14</th>
@@ -505,6 +457,7 @@ data dictonary
           <td>876.400000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Golubev I.F., Frolova M.G., Trudy Gos.NIPI In...</td>
         </tr>
         <tr>
           <th>15</th>
@@ -512,6 +465,7 @@ data dictonary
           <td>876.900000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>16</th>
@@ -519,6 +473,7 @@ data dictonary
           <td>NaN</td>
           <td>NaN</td>
           <td>NaN</td>
+          <td>[]</td>
         </tr>
         <tr>
           <th>17</th>
@@ -526,6 +481,7 @@ data dictonary
           <td>873.600000</td>
           <td>0.778888</td>
           <td>3.0</td>
+          <td>[Hayworth K.E., Lenoir J.M., Hipkin H.G., J.Ch...</td>
         </tr>
         <tr>
           <th>18</th>
@@ -533,6 +489,7 @@ data dictonary
           <td>873.548792</td>
           <td>0.825668</td>
           <td>197.0</td>
+          <td>[Nowak J., Malecki J., Thiebaut J.-M., Rivail ...</td>
         </tr>
         <tr>
           <th>19</th>
@@ -540,6 +497,7 @@ data dictonary
           <td>872.600000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Wang F., Evangelista R.F., Threatt T.J., Tava...</td>
         </tr>
         <tr>
           <th>20</th>
@@ -547,6 +505,7 @@ data dictonary
           <td>871.500000</td>
           <td>0.000000</td>
           <td>1.0</td>
+          <td>[Singh S., Sivanarayana K., Kushwaha R., Praka...</td>
         </tr>
       </tbody>
     </table>
@@ -571,3 +530,9 @@ again
 
     gro_exp.utils.save_data("test.obj",data)
     data = gro_exp.utils.load_data("test.obj")
+    gro_exp.ddb.plot_means(data)
+
+
+
+.. image:: pics/output_12_0.png
+
