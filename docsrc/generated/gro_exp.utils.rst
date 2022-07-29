@@ -18,6 +18,7 @@
       density
       load_data
       msd
+      msd_fit
       save_data
    
    

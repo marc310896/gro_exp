@@ -40,7 +40,8 @@ class UserModelCase(unittest.TestCase):
     def test_gromacs_analyse(self):
 
         gro_exp.utils.density("data/density.xvg", is_print=True, is_plot=True)
-        gro_exp.utils.msd("data/msd.xvg", is_print=True, is_plot=True)
+        data_msd = gro_exp.utils.msd("data/msd.xvg", is_print=True, is_plot=True)
+        gro_exp.utils.msd_fit(data_msd, area=[0,5], is_print=True, is_plot=True)
 
     # Test function to read DDB Data Bank
     def test_ddb(self):

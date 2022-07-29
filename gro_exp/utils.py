@@ -167,12 +167,56 @@ def msd(filename, is_print=False, is_plot=False):
     # Plot msd
     if is_plot:
         plt.title("MSD")
-        sns.lineplot(x=time, y=msd)
-        plt.xlabel("time")
+        sns.lineplot(x=time* 10**-3, y=msd)
+        plt.xlabel("time (ns)")
         plt.ylabel("MSD")
 
     # Return data
     return time, msd, str(words[4]), str(words[6][:-1])
+
+
+def msd_fit(data_msd, area = [], is_plot = False, is_print = False):
+    """
+    Function to fit the msd calculated with gromacs by hand. 
+
+    Parameters
+    ----------
+    data_msd : dictonary
+        data dictonary from the function :func:`gro_exp.utils.msd`
+    area : list
+        area in which the msd will be calculated
+
+
+    Returns
+    -------
+    time : float
+        self fitted msd value (m^2/s)
+    """
+
+    # Read dictonary
+    data = data_msd[1]          # read MSD
+    time = data_msd[0]          # read time (ps)
+
+    # Area for fitting
+    start = area[0] * 10 ** 3   # in ps
+    end = area[1] * 10 ** 3     # in ps
+    
+    # Fit msd value
+    msd_fit = (data[int(end/2)]-data[start])*10**-18/(6*(time[int(end/2)]-time[int(start/2)])*10**-12)
+
+    # Plot msd curve from gromacs and shawod the considered area
+    if is_plot:
+        plt.title("MSD")
+        sns.lineplot(x=time* 10**-3, y=data)
+        plt.xlabel("time (ns)")
+        plt.ylabel("MSD")
+        plt.axvspan(xmin=area[0], xmax=area[1], facecolor="grey", alpha=0.3)
+    
+    # Print self fitted MSD Value
+    if is_print:
+        print("MSD Diffusion (self): " + "%.4e" % (msd_fit) + " m^2/s")
+    
+    return msd_fit
 
 
 def density(filename, is_print=False, is_plot=False):

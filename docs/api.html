@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>API reference &#8212; gro-exp 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -11,7 +11,6 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -103,23 +102,34 @@
     <div class="body col-md-12 content" role="main">
       
   <section id="api-reference">
-<h1>API reference<a class="headerlink" href="#api-reference" title="Permalink to this heading">¶</a></h1>
+<h1>API reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
 <section id="gromacs">
-<h2>Gromacs<a class="headerlink" href="#gromacs" title="Permalink to this heading">¶</a></h2>
-<table class="autosummary longtable docutils align-default">
+<h2>Gromacs<a class="headerlink" href="#gromacs" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/gro_exp.utils.msd.html#gro_exp.utils.msd" title="gro_exp.utils.msd"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gro_exp.utils.msd</span></code></a>(filename[, is_print, is_plot])</p></td>
 <td><p>The function enables a display of the MSD history calculated by Gromacs by reading out a Gromacs xvg output file.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="generated/gro_exp.utils.density.html#gro_exp.utils.density" title="gro_exp.utils.density"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gro_exp.utils.density</span></code></a>(filename[, is_print, ...])</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="generated/gro_exp.utils.msd_fit.html#gro_exp.utils.msd_fit" title="gro_exp.utils.msd_fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gro_exp.utils.msd_fit</span></code></a>(data_msd[, area, ...])</p></td>
+<td><p>Function to fit the msd calculated with gromacs by hand.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="generated/gro_exp.utils.density.html#gro_exp.utils.density" title="gro_exp.utils.density"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gro_exp.utils.density</span></code></a>(filename[, is_print, ...])</p></td>
 <td><p>The function enables a calculation of the mean density in as simulation box and can plot the density over the box.</p></td>
 </tr>
 </tbody>
 </table>
 </section>
 <section id="experimental-data-pyddb">
-<h2>Experimental Data (pyDDB)<a class="headerlink" href="#experimental-data-pyddb" title="Permalink to this heading">¶</a></h2>
-<table class="autosummary longtable docutils align-default">
+<h2>Experimental Data (pyDDB)<a class="headerlink" href="#experimental-data-pyddb" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/gro_exp.ddb.html#module-gro_exp.ddb" title="gro_exp.ddb"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gro_exp.ddb</span></code></a></p></td>
 <td><p></p></td>
@@ -131,8 +141,12 @@
 </table>
 </section>
 <section id="benchmark">
-<h2>Benchmark<a class="headerlink" href="#benchmark" title="Permalink to this heading">¶</a></h2>
-<table class="autosummary longtable docutils align-default">
+<h2>Benchmark<a class="headerlink" href="#benchmark" title="Permalink to this headline">¶</a></h2>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="generated/gro_exp.utils.bench_plot.html#gro_exp.utils.bench_plot" title="gro_exp.utils.bench_plot"><code class="xref py py-obj docutils literal notranslate"><span class="pre">gro_exp.utils.bench_plot</span></code></a>(ns_day, cpus[, nodes])</p></td>
 <td><p>Function to plot speedup and cpu efficieny over the CPUs.</p></td>
@@ -158,7 +172,7 @@
     </p>
     <p>
         &copy; Copyright 2022, Hoegler.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
     </p>
   </div>
 </footer>

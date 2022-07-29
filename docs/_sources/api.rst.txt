@@ -11,7 +11,9 @@ Gromacs
      :toctree: generated/
 
      gro_exp.utils.msd
+     gro_exp.utils.msd_fit
      gro_exp.utils.density
+     
 
 Experimental Data (pyDDB)
 -------------------------

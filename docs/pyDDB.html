@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>Example Notebook for pyDB &#8212; gro-exp 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
@@ -11,7 +11,6 @@
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -104,14 +103,15 @@
 </pre></div>
 </div>
 <section id="example-notebook-for-pydb">
-<h1>Example Notebook for pyDB<a class="headerlink" href="#example-notebook-for-pydb" title="Permalink to this heading">¶</a></h1>
+<h1>Example Notebook for pyDB<a class="headerlink" href="#example-notebook-for-pydb" title="Permalink to this headline">¶</a></h1>
 <p>Read the density data from two components from a DDB Data Excel File
 over a specified temperature area for a pressure of 1 bar</p>
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Set the tempature area</span>
 <span class="n">temp_vec</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">280.15</span><span class="p">,</span><span class="mf">300.15</span><span class="p">,</span><span class="mi">21</span><span class="p">)</span>
 
 <span class="c1"># Read the data with the following function</span>
-<span class="n">data</span><span class="p">,</span> <span class="n">prop_dict</span> <span class="o">=</span> <span class="n">gro_exp</span><span class="o">.</span><span class="n">ddb</span><span class="o">.</span><span class="n">read_exp_temp_vec</span><span class="p">(</span><span class="s2">&quot;benzene_exp_density.xls&quot;</span><span class="p">,</span> <span class="n">temp_vec</span><span class="p">,</span> <span class="s2">&quot;DEN&quot;</span><span class="p">,</span> <span class="n">press</span><span class="o">=</span><span class="mf">101325.000</span><span class="p">,</span><span class="n">tol_p</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">p_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">prop_dict</span> <span class="o">=</span> <span class="n">gro_exp</span><span class="o">.</span><span class="n">ddb</span><span class="o">.</span><span class="n">read_exp_temp_vec</span><span class="p">(</span><span class="s2">&quot;benzene_exp_density.xls&quot;</span><span class="p">,</span> <span class="n">temp_vec</span><span class="p">,</span> <span class="s2">&quot;DEN&quot;</span><span class="p">,</span>
+                        <span class="n">press</span><span class="o">=</span><span class="mf">101325.000</span><span class="p">,</span><span class="n">tol_p</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span> <span class="n">p_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">is_plot</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">is_display</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <img alt="_images/output_2_0.png" src="_images/output_2_0.png" />
@@ -596,7 +596,7 @@ again</p>
     </p>
     <p>
         &copy; Copyright 2022, Hoegler.<br/>
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 5.0.2.<br/>
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 4.2.0.<br/>
     </p>
   </div>
 </footer>
