@@ -202,7 +202,7 @@ def msd_fit(data_msd, area = [], is_plot = False, is_print = False):
     end = area[1] * 10 ** 3     # in ps
     
     # Fit msd value
-    msd_fit = (data[int(end/2)]-data[start])*10**-18/(6*(time[int(end/2)]-time[int(start/2)])*10**-12)
+    msd_fit = (data[int(end/2)]-data[int(start/2)])*10**-18/(6*(time[int(end/2)]-time[int(start/2)])*10**-12)
 
     # Plot msd curve from gromacs and shawod the considered area
     if is_plot:
