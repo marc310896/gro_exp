@@ -117,7 +117,7 @@ def bench_table(ns_day, cpus, ns, nodes=False, print_con=False):
     return data
 
 
-def msd(filename, is_print=False, is_plot=False):
+def msd(filename, is_print=False, is_plot=False, kwargs_line={}):
     """
     The function enables a display of the MSD history calculated by Gromacs by
     reading out a Gromacs xvg output file.
@@ -130,6 +130,8 @@ def msd(filename, is_print=False, is_plot=False):
         True to print msd diffusion coefficient
     is_plot : bool, optional
         True to plot the msd value over the time
+    kwargs_line: dict, optional
+        Dictionary with plotting parameters for the line plot
 
     Returns
     -------
@@ -167,7 +169,7 @@ def msd(filename, is_print=False, is_plot=False):
     # Plot msd
     if is_plot:
         plt.title("MSD")
-        sns.lineplot(x=time* 10**-3, y=msd)
+        sns.lineplot(x=time* 10**-3, y=msd, **kwargs_line)
         plt.xlabel("time (ns)")
         plt.ylabel("MSD")
 
@@ -175,7 +177,7 @@ def msd(filename, is_print=False, is_plot=False):
     return time, msd, str(words[4]), str(words[6][:-1])
 
 
-def msd_fit(data_msd, area = [], is_plot = False, is_print = False):
+def msd_fit(data_msd, area = [], is_plot = False, is_print = False, kwargs_line={}):
     """
     Function to fit the msd calculated with gromacs by hand. 
 
@@ -185,6 +187,8 @@ def msd_fit(data_msd, area = [], is_plot = False, is_print = False):
         data dictonary from the function :func:`gro_exp.utils.msd`
     area : list
         area in which the msd will be calculated
+    kwargs_line: dict, optional
+        Dictionary with plotting parameters for the line plot
 
 
     Returns
@@ -207,7 +211,7 @@ def msd_fit(data_msd, area = [], is_plot = False, is_print = False):
     # Plot msd curve from gromacs and shawod the considered area
     if is_plot:
         plt.title("MSD")
-        sns.lineplot(x=time* 10**-3, y=data)
+        sns.lineplot(x=time* 10**-3, y=data, **kwargs_line)
         plt.xlabel("time (ns)")
         plt.ylabel("MSD")
         plt.axvspan(xmin=area[0], xmax=area[1], facecolor="grey", alpha=0.3)
@@ -219,7 +223,7 @@ def msd_fit(data_msd, area = [], is_plot = False, is_print = False):
     return msd_fit
 
 
-def density(filename, is_print=False, is_plot=False):
+def density(filename, is_print=False, is_plot=False, kwargs_line={}):
     """
     The function enables a calculation of the mean density in as simulation box
     and can plot the density over the box. As input file a gromacs xvg has to use.
@@ -232,6 +236,8 @@ def density(filename, is_print=False, is_plot=False):
         True to print the mean density
     is_plot : bool, optional
         True to plot the density over the box length
+    kwargs_line: dict, optional
+        Dictionary with plotting parameters for the line plot
 
     Returns
     -------
@@ -261,7 +267,7 @@ def density(filename, is_print=False, is_plot=False):
 
     if is_plot:
         plt.title("Density")
-        sns.lineplot(x=length, y=density)
+        sns.lineplot(x=length, y=density, **kwargs_line)
         plt.xlabel("Box length")
         plt.ylabel("Density")
 
