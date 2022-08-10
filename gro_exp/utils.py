@@ -187,13 +187,16 @@ def msd_fit(data_msd, area = [], is_plot = False, is_print = False, kwargs_line=
         data dictonary from the function :func:`gro_exp.utils.msd`
     area : list
         area in which the msd will be calculated
+    is_print : bool, optional
+        True to print msd diffusion coefficient
+    is_plot : bool, optional
+        True to plot the msd value over the time
     kwargs_line: dict, optional
         Dictionary with plotting parameters for the line plot
 
-
     Returns
     -------
-    time : float
+    msd_fit : float
         self fitted msd value (m^2/s)
     """
 
@@ -221,6 +224,62 @@ def msd_fit(data_msd, area = [], is_plot = False, is_print = False, kwargs_line=
         print("MSD Diffusion (self): " + "%.4e" % (msd_fit) + " m^2/s")
     
     return msd_fit
+
+
+def diff_inf_fit(diff_vec, box_vec, area = [], is_plot = False, is_print = False, kwargs_line={}, kwargs_scatter = {}):
+    """
+    Fuction to fit diffusion coefficient at an inifinite box size.
+
+    Parameters
+    ----------
+    diff_vec : list
+        list with diffusion coefficients
+    box_vec : list 
+        list with the box size
+    area : list
+        x axis limit, default = [0, 1.05 * max(1/box_vec)]
+    is_print : bool, optional
+        True to print msd diffusion coefficient
+    is_plot : bool, optional
+        True to plot the msd value over the time
+    kwargs_line: dict, optional
+        Dictionary with plotting parameters for the line plot
+
+    Returns
+    -------
+    fit : float
+        diffusion coefficient for an inifinite box size
+    res : float 
+        residual value for the fitting
+    """
+
+    # Set xlim area
+    if not area:
+        area = [0, 1.05 * 1/min(box_vec)]    
+
+    # Fit to an infinite box size
+    box_vec_inv = [1/box for box in box_vec]
+    fit = np.poly1d(np.polyfit([1/box for box in box_vec], diff_vec, 1))
+    res = np.polyfit([1/box for box in box_vec], diff_vec, 1, full=True)
+    
+    
+
+    # Plot msd curve from gromacs and shawod the considered area
+    if is_plot:
+        sns.lineplot(x=np.arange(area[0], area[1]+ 0.01, 0.01), y=fit(np.arange(area[0], area[1] + 0.01, 0.01)),**kwargs_line)                   
+        sns.scatterplot(x=box_vec_inv,y=diff_vec, **kwargs_scatter)
+        plt.xlabel("Inverse box (1/nm)")
+        plt.ylabel("Diffusion (m^2/s)")
+        plt.xlim(area)
+   
+
+    
+    # Print self fitted MSD Value
+    if is_print:
+        print("Diffusion (inifinite box): " + "%.4e" % (fit(0)) + " m^2/s")
+        print("Diffusion (inifinite box): " + "%.4e" % (res) + " m^2/s")
+    
+    return fit(0), res 
 
 
 def density(filename, is_print=False, is_plot=False, kwargs_line={}):
