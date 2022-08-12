@@ -61,6 +61,23 @@ class UserModelCase(unittest.TestCase):
         # Plot new data dictonary
         gro_exp.ddb.plot_means(data)
 
+    def test_ddb_diff(self):
+        # Set the tempature area
+        temp_vec = np.linspace(280.15,300.15,21)
+
+        # Read the data with the following function
+        data, prop_dict = gro_exp.ddb.read_exp_temp_vec("data/formic_acid_diffusion.xls", temp_vec, "DIF", press=101325.000, p_nan=True, is_plot=True, is_display=False)
+
+        # Plot data for a specified temperature
+        temp = 288.15
+        gro_exp.ddb.plot_data(prop_dict,temp)
+
+        # Drop outliers for the considered temperature
+        data = gro_exp.ddb.drop_outliers(data,prop_dict,temp, [810,820])
+
+        # Plot new data dictonary
+        gro_exp.ddb.plot_means(data)
+
     def utils(self):
         data = gro_exp.utils.load_data("data/test.obj")
         gro_exp.utils.save_data("output/test.obj", data)

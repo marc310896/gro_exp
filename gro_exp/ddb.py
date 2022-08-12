@@ -17,7 +17,7 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False,
     filename : string
         Link to gromacs analyse output file
     prop : string
-        property which you would like consider
+        property which you would like consider [DEN,DIF]
     temp : float
         desired temperature
     press : float
@@ -182,6 +182,15 @@ def read_exp_temp_vec(filename,temp_vec, prop, press, tol_temp=0.2,  tol_p = 100
         num_data.append(data_amount)
         std_prop.append(std)
         reference.append(ref_vec)
+    if prop == "DIF":
+        prop_dict[str(temp)][prop] = [value * 10 ** (-4) for value in prop_dict[str(temp)][prop]]
+        unit = "m^2/s"
+        for i in range(len(data_prop)):
+            if not data_prop[i] == None:
+                data_prop[i] = data_prop[i] * 10 ** (-4)
+                std_prop[i] = std_prop[i] * 10 ** (-4)
+
+        
 
     if is_plot:
         for j in range(len(data_prop)):
@@ -189,7 +198,11 @@ def read_exp_temp_vec(filename,temp_vec, prop, press, tol_temp=0.2,  tol_p = 100
             plt.errorbar(temp_vec[j], data_prop[j], std_prop[j]  )
 
         plt.xlabel("$\mathrm{Temperature \ (K)}$")
-        plt.ylabel("$\mathrm{Density} \ (\mathrm{kg \ m^{-2})}$")
+        if prop=="DEN":
+            plt.ylabel("$\mathrm{Density} \ (\mathrm{kg \ m^{-2})}$")
+        elif prop=="DIF":
+            plt.ylabel("$\mathrm{Diffusion} \ (\mathrm{m^{2} \ s^{-1})}$")
+
 
     data = {"Temperature (K)": temp_vec, str(prop + " (" + str(unit) + ")"): data_prop, "STD (" + str(unit) + ")": std_prop, "Number of data points": num_data, "References": reference}
 
@@ -225,10 +238,16 @@ def drop_outliers(data,prop_dict,temp,area):
             prop = [prop for prop in prop_dict[str(temp)][key] if area[1] > prop > area[0]]
             prop_ref = [prop_ref for prop,prop_ref in zip(prop_dict[str(temp)][key],prop_dict[str(temp)]["Reference"]) if area[1] > prop > area[0]]
             df = pd.DataFrame(data)
-            df.loc[df["Temperature (K)"] == temp, ["DEN (kg/m3)"]] = np.mean(prop)
-            df.loc[df["Temperature (K)"] == temp, ["STD (kg/m3)"]] = np.std(prop)
-            df.loc[df["Temperature (K)"] == temp, ["Number of data points"]] = len(prop)
-            #df.loc[df["Temperature (K)"] == temp, ["Reference point"]] = prop_ref
+            if ["DEN"] in list(prop_dict[str(temp)].keys()):
+                df.loc[df["Temperature (K)"] == temp, ["DEN (kg/m3)"]] = np.mean(prop)
+                df.loc[df["Temperature (K)"] == temp, ["STD (kg/m3)"]] = np.std(prop)
+                df.loc[df["Temperature (K)"] == temp, ["Number of data points"]] = len(prop)
+                df.loc[df["Temperature (K)"] == temp, ["References"]] = prop_ref
+            elif ["DIF"] in list(prop_dict[str(temp)].keys()):
+                df.loc[df["Temperature (K)"] == temp, ["DIF (m^2/s)"]] = np.mean(prop)
+                df.loc[df["Temperature (K)"] == temp, ["STD (m^2/s)"]] = np.std(prop)
+                df.loc[df["Temperature (K)"] == temp, ["Number of data points"]] = len(prop)
+                df.loc[df["Temperature (K)"] == temp, ["References"]] = prop_ref
 
     data = df.to_dict()
     return data
@@ -282,10 +301,19 @@ def plot_means(data):
     data : dictonary
         dictonary with the mean property, standard deviation and number of data points for the specified temperatures
     """
+    if ["DEN (kg/m3)"] in list(data.keys()):
+        for j in range(len(data["DEN (kg/m3)"])):
+            sns.scatterplot(x=[data["Temperature (K)"][j]],y=[data["DEN (kg/m3)"][j]]  )
+            plt.errorbar(data["Temperature (K)"][j],data["DEN (kg/m3)"][j],data["STD (kg/m3)"][j])
 
-    for j in range(len(data["DEN (kg/m3)"])):
-        sns.scatterplot(x=[data["Temperature (K)"][j]],y=[data["DEN (kg/m3)"][j]]  )
-        plt.errorbar(data["Temperature (K)"][j],data["DEN (kg/m3)"][j],data["STD (kg/m3)"][j])
+        plt.xlabel("$\mathrm{Temperature \ (K)}$")
+        plt.ylabel("$\mathrm{Density} \ (\mathrm{kg \ m^{-2})}$")
+    elif ["DIF (m^2/s)"] in list(data.keys()):
+        for j in range(len(data["DIF (m^2/s)"])):
+            sns.scatterplot(x=[data["Temperature (K)"][j]],y=[data["DIF (m^2/s)"][j]]  )
+            plt.errorbar(data["Temperature (K)"][j],data["DIF (m^2/s)"][j],data["STD (m^2/s)"][j])
 
-    plt.xlabel("$\mathrm{Temperature \ (K)}$")
-    plt.ylabel("$\mathrm{Density} \ (\mathrm{kg \ m^{-2})}$")
+        plt.xlabel("$\mathrm{Temperature \ (K)}$")
+        plt.ylabel("$\mathrm{Diffusion} \ (\mathrm{m^{2} \ s^{-1})}$")
+
+    
