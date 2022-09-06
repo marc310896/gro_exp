@@ -59,10 +59,10 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False,
     # Read unit and drop first row
     unit = df_all[prop][0]
     df_all = df_all.drop(index=0)
-
+    print(df_all)
     # Cut off references
     rows_with_nan = df_all[df_all['T'].isnull()].index.tolist()
-
+    print(rows_with_nan)
     # Reference Table
     df_ref = df_all.truncate(before=int(rows_with_nan[0]))
 

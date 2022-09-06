@@ -334,6 +334,58 @@ def density(filename, is_print=False, is_plot=False, kwargs_line={}):
     return length, density, density_mean
 
 
+def gyrate(filename, is_print=False, is_plot=False, kwargs_line={}):
+    """
+    The function enables a calculation of the gyration radius for a molcule in a simulation box
+    and can plot the gyration over the box. As input file a gromacs xvg has to use.
+
+    Parameters
+    ----------
+    filename : string
+        Link to gromacs analyse output file
+    is_print : bool, optional
+        True to print the gyration radius
+    is_plot : bool, optional
+        True to plot the density over the box length
+    kwargs_line: dict, optional
+        Dictionary with plotting parameters for the line plot
+
+    Returns
+    -------
+    length : list
+        list over box length
+    gyrate : list
+        list with the gyration radius
+    gyrate : float
+        mean gyration radius in the simulation Box
+    """
+    # Read data and set list
+    data_file = glob.glob(filename)
+    length = []
+    gyrate = []
+
+    # Read data
+    for i, file in enumerate(data_file):
+        length = np.genfromtxt(file, skip_header=28, usecols=0)
+        gyrate = np.genfromtxt(file, skip_header=28, usecols=1)
+
+    # Calculate gyrate
+    gyrate_mean = np.mean(gyrate)
+
+    # Print gyrate
+    if is_print:
+        print("gyrate: " + str(gyrate_mean) + " nm")
+
+    if is_plot:
+        plt.title("gyrate")
+        sns.lineplot(x=length, y=gyrate, **kwargs_line)
+        plt.xlabel("Box length")
+        plt.ylabel("gyrate")
+
+    # Return results
+    return length, gyrate, gyrate_mean
+
+
 
 def save_data(link, data):
     """Save an object files using pickle in the specified link.
