@@ -1,6 +1,7 @@
 import glob                        # use linux wildcard syntax
 import numpy as np
 import sys
+import scipy.stats as stats
 import pickle
 import pandas as pd
 import seaborn as sns
@@ -10,7 +11,6 @@ import matplotlib.pyplot as plt
 def bench_plot(ns_day, cpus, nodes=False):
     """
     Function to plot speedup and cpu efficieny over the CPUs.
-
     Parameters
     ----------
     ns_day : list
@@ -19,7 +19,6 @@ def bench_plot(ns_day, cpus, nodes=False):
         list with used cpus or number of cpus per node if ns_day list is over nodes
     nodes : bool
         if ns_day list is over nodes
-
     Returns
     -------
     speedup : list
@@ -62,6 +61,7 @@ def bench_plot(ns_day, cpus, nodes=False):
     plt.ylabel("Efficiency")
 
     return speedup, efficieny
+
 
 
 def bench_table(ns_day, cpus, ns, nodes=False, print_con=False):
@@ -226,7 +226,7 @@ def msd_fit(data_msd, area = [], is_plot = False, is_print = False, kwargs_line=
     return msd_fit
 
 
-def diff_inf_fit(diff_vec, box_vec, area = [], is_plot = False, is_print = False, kwargs_line={}, kwargs_scatter = {}):
+def diff_inf_fit(diff_vec, x_vec, x="box", area = [], is_plot = False, is_print = False, kwargs_line={}, kwargs_scatter = {}):
     """
     Fuction to fit diffusion coefficient at an inifinite box size.
 
@@ -237,7 +237,7 @@ def diff_inf_fit(diff_vec, box_vec, area = [], is_plot = False, is_print = False
     box_vec : list 
         list with the box size
     area : list
-        x axis limit, default = [0, 1.05 * max(1/box_vec)]
+        x axis limit
     is_print : bool, optional
         True to print msd diffusion coefficient
     is_plot : bool, optional
@@ -247,27 +247,32 @@ def diff_inf_fit(diff_vec, box_vec, area = [], is_plot = False, is_print = False
 
     Returns
     -------
-    fit : float
+    intercept : float
         diffusion coefficient for an inifinite box size
-    res : float 
-        residual value for the fitting
+    error : float 
+        error of intercept
     """
 
-    # Set xlim area
-    if not area:
-        area = [0, 1.05 * 1/min(box_vec)]    
+    
 
     # Fit to an infinite box size
-    box_vec_inv = [1/box for box in box_vec]
-    fit = np.poly1d(np.polyfit([1/box for box in box_vec], diff_vec, 1))
-    res = np.polyfit([1/box for box in box_vec], diff_vec, 1, full=True)
-    
-    
+    if x == "box":
+        x_vec = [1/box for box in x_vec]
+        if not area:
+            area = [0, 1.05 * max(x_vec)]    
+    elif x == "number":
+        x_vec = [(1/n)**(1/3) for n in x_vec]
+        if not area:
+            area = [0, 1.05 * max(x_vec)]  
 
+    reg = stats.linregress(x_vec,diff_vec)
+    print(reg.slope)
+    print(len([(reg.slope*x + reg.intercept)  for x in np.arange(area[0], area[1] + 0.01, 0.01)]))
+    print(len(np.arange(area[0], area[1]+ 0.01, 0.01)))
     # Plot msd curve from gromacs and shawod the considered area
     if is_plot:
-        sns.lineplot(x=np.arange(area[0], area[1]+ 0.01, 0.01), y=fit(np.arange(area[0], area[1] + 0.01, 0.01)),**kwargs_line)                   
-        sns.scatterplot(x=box_vec_inv,y=diff_vec, **kwargs_scatter)
+        sns.lineplot(x=[x for x in np.arange(area[0], area[1]+ 0.01, 0.01)], y= [(reg.slope*x + reg.intercept)  for x in np.arange(area[0], area[1] + 0.01, 0.01)],**kwargs_line)                   
+        sns.scatterplot(x=x_vec,y=diff_vec, **kwargs_scatter)
         plt.xlabel("Inverse box (1/nm)")
         plt.ylabel("Diffusion (m^2/s)")
         plt.xlim(area)
@@ -276,13 +281,13 @@ def diff_inf_fit(diff_vec, box_vec, area = [], is_plot = False, is_print = False
     
     # Print self fitted MSD Value
     if is_print:
-        print("Diffusion (inifinite box): " + "%.4e" % (fit(0)) + " m^2/s")
-        print("Diffusion (inifinite box): " + "%.4e" % (res) + " m^2/s")
+        print("Diffusion (inifinite box): " + "%.4e" % (reg.intercept) + " m^2/s")
+        print("Diffusion (inifinite box): " + "%.4e" % (reg.intercept_stderr) + " m^2/s")
     
-    return fit(0), res 
+    return reg.intercept, reg.intercept_stderr
 
 
-def density(filename, is_print=False, is_plot=False, kwargs_line={}):
+def density(filename, area = [], is_print=False, is_plot=False, kwargs_line={}):
     """
     The function enables a calculation of the mean density in as simulation box
     and can plot the density over the box. As input file a gromacs xvg has to use.
@@ -291,6 +296,8 @@ def density(filename, is_print=False, is_plot=False, kwargs_line={}):
     ----------
     filename : string
         Link to gromacs analyse output file
+    area : array
+        calculate the density between [a,b], default whole box
     is_print : bool, optional
         True to print the mean density
     is_plot : bool, optional
@@ -301,7 +308,7 @@ def density(filename, is_print=False, is_plot=False, kwargs_line={}):
     Returns
     -------
     length : list
-        list over box length
+        list over box lengthden
     density : list
         list with the density
     dens_mean : float
@@ -319,14 +326,21 @@ def density(filename, is_print=False, is_plot=False, kwargs_line={}):
 
     # Calculate density
     density_mean = np.mean(density)
-
+    if area:
+        idx_1 = np.digitize(area[0],length)
+        idx_2 = np.digitize(area[1],length)
+        density_area_mean = np.mean(density[idx_1:idx_2])
+        
     # Print density
-    if is_print:
+    if is_print:            
         print("Density: " + str(density_mean) + " kg m^-3")
-
+        if area:
+            print("Density ["+ str(area[0])+","+str(area[1])+"]: " + str(density_area_mean) + " kg m^-3")
     if is_plot:
         plt.title("Density")
         sns.lineplot(x=length, y=density, **kwargs_line)
+        if area:
+            plt.axvspan(xmin=area[0], xmax=area[1], facecolor="grey", alpha=0.3)
         plt.xlabel("Box length")
         plt.ylabel("Density")
 

@@ -7,7 +7,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 
-def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False, is_plot=False, is_print=False, area=[]):
+def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False, is_plot=False, is_print=False, area=[], is_ref=False):
     """
     This function can read a DBB Excel file and returns the desired mean
     property at the specified temperature.
@@ -92,11 +92,14 @@ def read_exp(filename, prop, temp, press=None, tol_temp=0, tol_p=0, p_nan=False,
     ref_vec = []
 
     # Read reference of the choosen data points
-    for i in (data[prop]):
-        prop_vec.append(float(data[prop][i]))
-        ref = df_ref[df_ref['PCP Data Set#'] == (data['Ref. Number'][i])]
-        ref = ref['T'].values[0]
-        ref_vec.append(ref.split("] ")[1])
+    if is_ref:
+        for i in (data[prop]):
+            prop_vec.append(float(data[prop][i]))
+            ref = df_ref[df_ref['PCP Data Set#'] == (data['Ref. Number'][i])]
+            ref = ref['T'].values[0]
+            ref_vec.append(ref.split("] ")[1])
+    else:
+        ref_vec = []
 
     # Save table with data points
     table = df_woT

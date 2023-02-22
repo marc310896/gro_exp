@@ -39,7 +39,7 @@ class UserModelCase(unittest.TestCase):
     # Test functions to read msd and
     def test_gromacs_analyse(self):
 
-        gro_exp.utils.density("data/density.xvg", is_print=True, is_plot=True)
+        gro_exp.utils.density("data/density.xvg", area = [0,2], is_print=True, is_plot=True)
         data_msd = gro_exp.utils.msd("data/msd.xvg", is_print=True, is_plot=True)
         gro_exp.utils.msd_fit(data_msd, area=[0,5], is_print=True, is_plot=True)
 
@@ -94,6 +94,11 @@ class UserModelCase(unittest.TestCase):
         gro_exp.utils.bench_plot(ns_h, 75, nodes=True)
         gro_exp.utils.bench_table(ns_h, 75, 200, nodes=True, print_con=True)
 
+    def test_fitting(self):
+        x = [1000, 5000, 10000]
+        diff = [1.67,1.8,1.84]
 
+        gro_exp.utils.diff_inf_fit(diff, x, x="number", area = [], is_plot = True, is_print = False, kwargs_line={}, kwargs_scatter = {})
+        
 if __name__ == '__main__':
     unittest.main(verbosity=2)
