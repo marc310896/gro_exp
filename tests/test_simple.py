@@ -35,7 +35,11 @@ class UserModelCase(unittest.TestCase):
                 os.unlink(file_path)
             elif os.path.isdir(file_path):
                 shutil.rmtree(file_path)
-
+    
+    # Test cut function
+    def test_cut(self): 
+        gro_exp.utils.cut_gro("data/test.gro","output/test.gro", direction="z", area= [15,18])
+    
     # Test functions to read msd and
     def test_gromacs_analyse(self):
 
