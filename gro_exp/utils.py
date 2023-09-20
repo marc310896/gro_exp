@@ -7,7 +7,28 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-def cut_gro(filename, output, direction='z', area = []):
+def cut_gro(filename, output, direction='z', area = [], mol={}, remove=False):
+    """
+    Function to cut into  Gromacs structure files or to remove molecules in specific areas.
+
+    Parameters
+    ----------
+    filename : string
+        string to gro file
+    output : string
+        name of the output gro file
+    direction : string
+        direction (x,y or z)
+    area : list
+        list [a,b] area which you want to have
+    mol : dictonary
+        key as the molecules name and value is a list c=[a,b]
+        Remove the specified molecules in the area c
+    remove: bool
+        remove molecules specified in the mol dictonary
+    """
+
+
     # Read filled structure
     with open(filename, "r") as file_in:
         counter = 0
@@ -43,7 +64,25 @@ def cut_gro(filename, output, direction='z', area = []):
     mol_names = []
     last_atom = None
     for atom in data:
-        if (area[0]<atom[i]<area[1]):
+        if (atom[1] in mol) and remove:
+            if (mol[atom[1]][0]<atom[i]<mol[atom[1]][1]):
+                pass
+            elif (area[0]<atom[i]<area[1]):
+
+                # Create new dictionary entry
+                if not atom[1] in mols:
+                    mols[atom[1]] = []
+                    mol_names.append(atom[1])
+
+                # Create new molecule
+                if last_atom is None or not atom[0]==last_atom:
+                    mols[atom[1]].append([])
+
+                # Add atom
+                mols[atom[1]][-1].append(atom)
+                last_atom = atom[0]
+
+        elif (area[0]<atom[i]<area[1]):
             # Create new dictionary entry
             if not atom[1] in mols:
                 mols[atom[1]] = []
@@ -56,7 +95,8 @@ def cut_gro(filename, output, direction='z', area = []):
             # Add atom
             mols[atom[1]][-1].append(atom)
             last_atom = atom[0]
-            
+
+
     # Create new gro file
     with open(output, "w") as file_out:
         # Set title
